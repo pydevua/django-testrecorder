@@ -1,9 +1,12 @@
-
-class RequestRecorder(object):
-    _requests = []
+class RequestRecord(object):
     
-    def add_request(self, request):
-        self._requests.append(request)
+    def __init__(self, request, response):
+        self.url = request.path_info
+        self.method = request.method
+        self.get = request.GET
+        self.post = request.POST
+        self.code = response.status_code
+        self.redirect_url = ''
         
 def replace_insensitive(string, target, replacement):
     """

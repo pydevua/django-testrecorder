@@ -1,0 +1,22 @@
+<table>
+	<thead>
+		<tr>
+			<th>Path</th>
+			<th>Method</th>
+			<th>GET</th>
+			<th>POST</th>
+			<th>Code</th>
+			<th>Redirect url</th>
+		</tr>
+	</thead>
+	{% for row in records %}
+		<tr>
+			<td>{{ row.url }}</td>
+			<td>{{ row.method }}</td>
+			<td>{{ row.get }}</td>
+			<td>{{ row.post }}</td>
+			<td>{{ row.code }}</td>
+			<td>{{ row.redirect_url }}</td>
+		</tr>
+	{% endfor %}	
+</table>
