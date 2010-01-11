@@ -1,0 +1,20 @@
+<input type='text' id='testcase-class-name' value='{{ class_name }}'/>
+<button id='set-testcase-class-name'>Set</button>
+<script type='text/javascript'>
+	jQuery(function($j){
+		$j('#set-testcase-class-name').click(function(){
+			var value = $j('#testcase-class-name').val();
+			if (value) {
+				$j.post('{{ BASE_URL }}/class_name/',
+						{'name': value},
+						function(data, textStatus){
+							alert(textStatus);
+							//if (textStatus != 'success') alert(textStatus);
+						}, 'json'
+				);
+			}else{
+				alert('Set class name');
+			}
+		});
+	});
+</script>
