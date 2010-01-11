@@ -10,11 +10,19 @@
 		</tr>
 	</thead>
 	{% for row in records %}
-		<tr>
+		<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">
 			<td>{{ row.url }}</td>
 			<td>{{ row.method }}</td>
-			<td>{{ row.get }}</td>
-			<td>{{ row.post }}</td>
+			<td>
+				{% with row.get as vars %}
+					{% include 'testrecorder/panels/_request_vars.html' %}
+				{% endwith %}
+			</td>
+			<td>				
+				{% with row.post as vars %}
+					{% include 'testrecorder/panels/_request_vars.html' %}
+				{% endwith %}
+			</td>
 			<td>{{ row.code }}</td>
 			<td>{{ row.redirect_url }}</td>
 		</tr>
