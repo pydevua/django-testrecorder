@@ -24,4 +24,4 @@ class FunctionNamePanel(Panel):
         }
         return render_to_string('testrecorder/panels/function_name.html', context)    
 
-function_name_panel = FunctionNamePanel()
+#function_name_panel = FunctionNamePanel()

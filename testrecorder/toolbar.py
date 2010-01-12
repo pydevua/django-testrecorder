@@ -1,6 +1,12 @@
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 from testrecorder.panels import Panel
+from django.conf import settings
+from testrecorder.panels.classname import ClassNamePanel
+from testrecorder.panels.functionname import FunctionNamePanel
+from testrecorder.panels.record import RecordPanel
+from testrecorder.panels.code import CodePanel
+import re
 
 class Toolbar(object):
     
@@ -8,24 +14,62 @@ class Toolbar(object):
     fixtures = []
     
     def __init__(self):
-        from testrecorder.panels.classname import class_name_panel
-        from testrecorder.panels.functionname import function_name_panel
-        from testrecorder.panels.record import record_handler
-        from testrecorder.panels.code import ClassNamePanel            
-        self.panels = []
-        self.init_panels([
-            class_name_panel,
-            function_name_panel,
-            record_handler,
-            ClassNamePanel                   
-        ])       
+        self.cls_name_panel = ClassNamePanel()
+        self.func_name_panel = FunctionNamePanel()
+        self.record_panel = RecordPanel()
+        self.code_panel = CodePanel()
+        self._init_inore_patterns()
+        
+    def _init_inore_patterns(self):
+        self.ignore = []
+        try:
+            patterns = settings.RECORDER_SETTINGS['ignore']
+            for item in patterns:
+                self.ignore.append(re.compile(item))
+        except (AttributeError, KeyError):
+            pass
+             
+    
+    @property
+    def panels(self):
+        return [
+            self.cls_name_panel,
+            self.func_name_panel,
+            self.record_panel,
+            self.code_panel,                
+        ]
+    
+    def get_class_name(self):
+        return self.cls_name_panel.class_name
+    
+    def set_class_name(self, name):
+        self.cls_name_panel.class_name = name
+    
+    class_name = property(get_class_name, set_class_name)
+    
+    def set_func_name(self, name):
+        self.func_name_panel.function_name = name
 
-    def init_panels(self, panels):
-        for panel in panels:
-            if isinstance(panel, Panel):
-                self.panels.append(panel)
-            else:
-                self.panels.append(panel())
+    def get_func_name(self):
+        return self.func_name_panel.function_name
+
+    func_name = property(get_func_name, set_func_name)
+    
+    @property
+    def requests(self):
+        return self.record_panel.data
+    
+    def is_valid_path(self, request):
+        path = request.path_info
+        for pattern in self.ignore:
+            if pattern.match(path):
+                return False
+        return True
+        
+    def process_response(self, request, response):
+        self.is_valid_path(request)
+        if self.start_record and self.is_valid_path(request):
+            self.record_panel.process_response(request, response)
     
     def render(self):
         return render_to_string('testrecorder/base.html', {

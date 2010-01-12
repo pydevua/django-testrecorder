@@ -10,15 +10,13 @@ class RecordPanel(Panel):
     has_content = True
     
     def __init__(self):
-        self._data = []
+        self.data = []
     
     def nav_title(self):
-        from testrecorder.middleware import toolbar 
-        return toolbar.start_record and 'Logs(started)' or 'Logs(stoped)'
+        return 'Reuqests'
 
     def title(self):
-        from testrecorder.middleware import toolbar 
-        return toolbar.start_record and 'Logs(started)' or 'Logs(stoped)'
+        return 'Reuqests'
 
     def url(self):
         return ''
@@ -26,15 +24,12 @@ class RecordPanel(Panel):
     def content(self):
         context = {
             'BASE_URL': '/%s' %  _PREFIX,
-            'records': self._data
+            'records': self.data
         }
         return render_to_string('testrecorder/panels/record.html', context)    
 
     def process_response(self, request, response):
-        from testrecorder.middleware import toolbar
-        
-        if (toolbar.start_record):
-            item = RequestRecord(request, response)
-            self._data.append(item)
+        item = RequestRecord(request, response)
+        self.data.append(item)
 
-record_handler = RecordPanel()
+#record_handler = RecordPanel()

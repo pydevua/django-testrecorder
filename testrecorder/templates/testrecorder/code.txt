@@ -1,5 +1,17 @@
 from django.test import TestCase
 from django.test.client import Client
+from django.core.urlresolvers import reverse
 
 class {{ class_name }}(TestCase):
-	fixtures = []
+	fixtures = ['{{ fixtures|join:"', '" }}']
+	
+	def setUp(self):
+		self.client = Client()
+		{% if auth %}self.auth = {{% for key, value in auth.items %}
+			'{{ key }}': '{{ value }}'{% if not forloop.last %},{% endif %}{% endfor %}
+		}{% endif %}
+	
+	def {{ func_name }}(self):{% if auth %}
+		self.client.login(**self.auth){% endif %}
+	{% for item in requests %}{% include 'testrecorder/_test_request.txt' %}
+	{% endfor %}

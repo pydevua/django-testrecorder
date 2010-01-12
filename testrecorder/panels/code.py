@@ -2,7 +2,7 @@ from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 
-class ClassNamePanel(Panel):
+class CodePanel(Panel):
     
     name = 'Code'
     has_content = True
@@ -22,4 +22,4 @@ class ClassNamePanel(Panel):
         }
         return render_to_string('testrecorder/panels/code.html', context)    
 
-class_name_panel = ClassNamePanel()
+#class_name_panel = CodePanel()

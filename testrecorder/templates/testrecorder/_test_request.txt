@@ -1,0 +1,9 @@
+		{% if item.is_data %}
+		data = {
+			{% for key, value in item.data %}'{{ key }}': {% if value|length_is:"1" %}'{{ value.0 }}'{% else %}['{{ value|join:"', '" }}']{% endif %},
+			{% endfor %}		
+		}{% endif %}
+		url = reverse({{ item.url_reverse|safe }})
+		response = self.client.{{ item.method|lower }}(url{% if item.is_data %}, data{% endif %})
+		self.failUnlessEqual(response.status_code, {{ item.code }}){% if item.redirect_url %}
+		self.failUnlessEqual(response['Location'], 'http://testserver{{ item.redirect_url }}'){% endif %}

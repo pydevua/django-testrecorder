@@ -5,6 +5,7 @@ from testrecorder.toolbar import toolbar
 import os
 import testrecorder.urls
 from django.utils.encoding import smart_unicode
+from django.core.urlresolvers import reverse
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 _STATUS_CODES = (200, 302)
@@ -26,19 +27,17 @@ class TestRecorderMiddleware(object):
         pass
         
     def process_response(self, request, response):
-        if self._save_request(request, response):
-            for panel in toolbar.panels:
-                panel.process_response(request, response)
-            if response.status_code == 200:            
+        if self._validate_request(request, response):        
+            toolbar.process_response(request, response)
+            if response.status_code == 200 and response['Content-Type'].split(';')[0] in _HTML_TYPES:            
                 response.content = replace_insensitive(smart_unicode(response.content), u'</body>', smart_unicode(toolbar.render() + u'</body>'))
         return response
     
-    def _save_request(self, request, response):
-        if not response['Content-Type'].split(';')[0] in _HTML_TYPES:
-            return False
-        #This response has 'text/html' type
+    def _validate_request(self, request, response):
         if response.status_code == 304:
             return False
         if request.path.startswith(os.path.join('/', testrecorder.urls._PREFIX)):
+            return False
+        if request.path.startswith(settings.MEDIA_URL):
             return False
         return True

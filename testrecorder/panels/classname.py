@@ -24,4 +24,4 @@ class ClassNamePanel(Panel):
         }
         return render_to_string('testrecorder/panels/class_name.html', context)    
 
-class_name_panel = ClassNamePanel()
+#class_name_panel = ClassNamePanel()
