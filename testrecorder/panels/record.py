@@ -13,10 +13,10 @@ class RecordPanel(Panel):
         self.data = []
     
     def nav_title(self):
-        return 'Reuqests'
+        return 'Requests'
 
     def title(self):
-        return 'Reuqests'
+        return 'Requests'
 
     def url(self):
         return ''
