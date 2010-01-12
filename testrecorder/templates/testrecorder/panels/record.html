@@ -26,6 +26,7 @@
 			</td>
 			<td>{{ row.code }}</td>
 			<td>{{ row.redirect_url }}</td>
+			<td><a class="djDeleteRequest" href="{{ BASE_URL }}/delete/?index={{ forloop.counter0 }}">delete</a></td>
 		</tr>
 	{% endfor %}	
 </table>

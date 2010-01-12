@@ -20,6 +20,8 @@
 	<div style="display:none;" id="djDebugToolbar">
 		<ul id="djDebugPanelList">
 			<li><a id="djHideToolBarButton" href="#" title="Hide Toolbar">{% trans "Hide" %} &raquo;</a></li>
+			<li><a class="jsStopRecord" href="{{ BASE_URL }}/stop/" {% if not start %}style="display: none"{% endif %} title="Stop Record">{% trans "Stop" %}</a></li>
+			<li><a class="jsStartRecord" href="{{ BASE_URL }}/start/" {% if start %}style="display: none"{% endif %} title="Start Record">{% trans "Start" %}</a></li>
 			{% for panel in panels %}
 				<li>
 					{% if panel.has_content %}
@@ -42,8 +44,8 @@
 	</div>
 	<div style="display:none;" id="djDebugToolbarHandle">
 		<a title="Show Toolbar" id="djShowToolBarButton" href="#">&laquo;</a>
-		<a title="Stop Record" id="djStopToolBarButton" href="{{ BASE_URL }}/stop/" {% if not start %}style="display: none"{% endif %}>&laquo;</a>
-		<a title="Start Record" id="djStartToolBarButton" href="{{ BASE_URL }}/start/" {% if start %}style="display: none"{% endif %}>&laquo;</a>
+		<a class="jsStopRecord"  title="Stop Record" id="djStopToolBarButton" href="{{ BASE_URL }}/stop/" {% if not start %}style="display: none"{% endif %}>&laquo;</a>
+		<a class="jsStartRecord"  title="Start Record" id="djStartToolBarButton" href="{{ BASE_URL }}/start/" {% if start %}style="display: none"{% endif %}>&laquo;</a>
 		<a title="Get Code" id="djGetCodeToolBarButton" href="#">&laquo;</a>
 	</div>
 	{% for panel in panels %}

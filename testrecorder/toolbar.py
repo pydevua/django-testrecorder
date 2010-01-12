@@ -29,6 +29,8 @@ class Toolbar(object):
         except (AttributeError, KeyError):
             pass
              
+    def delete(self, index):
+        self.record_panel.delete(index)
     
     @property
     def panels(self):

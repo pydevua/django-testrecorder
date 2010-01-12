@@ -68,16 +68,27 @@ jQuery(function($j) {
 				$j.djDebug.show_toolbar();
 				$j('#djDebugPanelList li a.djDebugCodePanel').click();
 			});
-			$j('#djStartToolBarButton').click(function() {
+			
+			function _delete_record_handler(){
+				$j.get(this.href, {}, function(data){
+					$j('#djDebugRecordRequestsPanel div.scroll').html(data);
+					$j('a.djDeleteRequest').click(_delete_record_handler);
+				}, 'text');
+				return false;				
+			}
+			
+			$j('a.djDeleteRequest').click(_delete_record_handler);
+			
+			$j('a.jsStartRecord').click(function(e) {
 				$j.get(this.href);
-				$j(this).hide();
-				$j('#djStopToolBarButton').show();
+				$j('a.jsStartRecord').hide();
+				$j('a.jsStopRecord').show();
 				return false;
 			});	
-			$j('#djStopToolBarButton').click(function() {
+			$j('a.jsStopRecord').click(function(e) {
 				$j.get(this.href);
-				$j(this).hide();
-				$j('#djStartToolBarButton').show();
+				$j('a.jsStopRecord').hide();
+				$j('a.jsStartRecord').show();
 				return false;
 			});						
 			if ($j.cookie(COOKIE_NAME)) {

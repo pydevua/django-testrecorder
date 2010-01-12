@@ -30,6 +30,11 @@ def function_name(request):
         toolbar.func_name = name
     return HttpResponse('{}')
 
+def delete(request):
+    index = request.GET.get('index', None)
+    index and toolbar.delete(int(index))
+    return HttpResponse(toolbar.record_panel.content())
+
 def code(request):
     try:
         auth = settings.RECORDER_SETTINGS['auth']

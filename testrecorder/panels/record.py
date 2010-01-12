@@ -20,7 +20,14 @@ class RecordPanel(Panel):
 
     def url(self):
         return ''
-
+    
+    def delete(self, index):
+        try:
+            del self.data[index]
+            return True
+        except IndexError:
+            return False
+    
     def content(self):
         context = {
             'BASE_URL': '/%s' %  _PREFIX,
