@@ -56,6 +56,18 @@ jQuery(function($j) {
 				$j.djDebug.show_toolbar();
 				return false;
 			});
+			/*$j('#djDebugPanelList li a.djDebugCodePanel').click(function(){
+				var area = $j('#djTestCaseCodeArea')
+				area.val('Loading...');
+				$j.get(this.href, {}, function(data){
+					area.val(data);
+				}, 'text');
+				return false;
+			});*/
+			/*$j('#djGetCodeToolBarButton').click(function(){
+				$j.djDebug.show_toolbar();
+				$j('#djDebugPanelList li a.djDebugCodePanel').click();
+			});*/
 			$j('#djStartToolBarButton').click(function() {
 				$j.get(this.href);
 				$j(this).hide();

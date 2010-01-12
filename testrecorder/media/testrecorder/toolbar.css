@@ -22,6 +22,11 @@
 	text-align:left;
 }
 
+#djDebug #djTestCaseCodeArea {
+	width: 500px;
+	height: 400px;
+}
+
 #djDebug #djDebugToolbar {
 	background:#111;
 	width:200px;

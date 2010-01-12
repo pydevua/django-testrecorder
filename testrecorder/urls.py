@@ -9,4 +9,5 @@ urlpatterns = patterns('testrecorder.views',
     url(r'^%s/function_name/$' % _PREFIX, 'function_name'),
     url(r'^%s/start/$' % _PREFIX, 'start'),
     url(r'^%s/stop/$' % _PREFIX, 'stop'),
+    url(r'^%s/code/$' % _PREFIX, 'code'),
 )

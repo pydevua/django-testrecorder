@@ -13,14 +13,18 @@ class Command(BaseCommand):
     args = '[fixture ...]'
 
     requires_model_validation = False
-
+    
+    fixtures = []
+    
     def handle(self, *fixture_labels, **options):            
         from django.core.management import call_command
-
+        #from testrecorder.middleware import toolbar
+        
         settings.MIDDLEWARE_CLASSES += (
             'testrecorder.middleware.TestRecorderMiddleware',
         )
         if not fixture_labels:
             fixture_labels = settings.TEST_RUNNER_FIXTURES
+        #toolbar.fixtures = fixture_labels
         call_command('testserver', *fixture_labels, **options)
         

@@ -1,14 +1,13 @@
 from django.conf import settings
 from django.conf.urls.defaults import include, patterns
 from testrecorder.utils import replace_insensitive
-from testrecorder.toolbar import Toolbar
+from testrecorder.toolbar import toolbar
 import os
 import testrecorder.urls
 from django.utils.encoding import smart_unicode
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 _STATUS_CODES = (200, 302)
-toolbar = Toolbar()
 
 class TestRecorderMiddleware(object):
     
