@@ -1,6 +1,7 @@
 from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
+from django.utils.safestring import mark_safe
 
 class ClassNamePanel(Panel):
     
@@ -9,7 +10,7 @@ class ClassNamePanel(Panel):
     class_name = 'SomeTestCase'
     
     def nav_title(self):
-        return 'Class name: %s' % self.class_name
+        return mark_safe('Class name: <span>%s</span>' % self.class_name)
 
     def title(self):
         return 'Class name'

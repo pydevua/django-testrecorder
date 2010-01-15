@@ -2,7 +2,7 @@ from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 from django.core.urlresolvers import reverse
-from testrecorder.utils import RequestRecord
+from testrecorder.utils import RequestRecord, TestFunctionRecord
 
 class RecordPanel(Panel):
     
@@ -11,6 +11,9 @@ class RecordPanel(Panel):
     
     def __init__(self):
         self.data = []
+    
+    def add_function(self, name):
+        self.data.append(TestFunctionRecord(name))
     
     def nav_title(self):
         return 'Requests'
@@ -21,7 +24,13 @@ class RecordPanel(Panel):
     def url(self):
         return ''
     
-    def delete(self, index):
+    def delete(self, func_index, index):
+        try:
+            return self.data[func_index].delete(index)
+        except IndexError:
+            return False
+
+    def delete_func(self, index):
         try:
             del self.data[index]
             return True
@@ -37,6 +46,6 @@ class RecordPanel(Panel):
 
     def process_response(self, request, response):
         item = RequestRecord(request, response)
-        self.data.append(item)
+        self.data[-1].add(item)
 
 #record_handler = RecordPanel()

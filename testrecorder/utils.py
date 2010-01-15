@@ -1,6 +1,23 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
 from django.utils.encoding import smart_str
 
+class TestFunctionRecord(object):
+    
+    def __init__(self, name, *args, **kwargs):
+        self.name = name
+        self.records = []
+    
+    def add(self, item):
+        self.records.append(item)
+        
+    def delete(self, index):
+        try:
+            del self.records[index]
+            return True
+        except IndexError:
+            return False
+        
+    
 class RequestRecord(object):
     
     def __init__(self, request, response):
@@ -85,12 +102,13 @@ def _resolver_resolve_to_name(self, path):
                 tried.extend([(pattern.regex.pattern + '   ' + t) for t in e.args[0]['tried']])
             else:
                 if sub_match:
+                    name = sub_match[0]
                     sub_match_dict = dict([(smart_str(k), v) for k, v in match.groupdict().items()])
                     for k, v in sub_match[2].iteritems():
                         sub_match_dict[smart_str(k)] = v 
                     if hasattr(self, 'namespace') and self.namespace:
-                        sub_match[0] = '%s:%s' % (self.namespace, sub_match[0])                                            
-                    return sub_match[0], sub_match[1], sub_match_dict 
+                        name = '%s:%s' % (self.namespace, name)                                            
+                    return name, sub_match[1], sub_match_dict 
                 tried.append(pattern.regex.pattern)
         raise Resolver404, {'tried': tried, 'path': new_path}
 

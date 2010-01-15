@@ -24,25 +24,29 @@ def class_name(request):
         toolbar.class_name = name
     return HttpResponse('{}')
 
-def create_function(request):
+def add_function(request):
     name = request.POST.get('name', None)
     if name:
-        toolbar.create_function(name)
+        toolbar.add_function(name)
     return HttpResponse('{}')
 
 def delete(request):
     index = request.GET.get('index', None)
-    index and toolbar.delete(int(index))
+    func_index = request.GET.get('func_index', None)
+    index and func_index and toolbar.delete(int(func_index), int(index))
+    return HttpResponse(toolbar.record_panel.content())
+
+def func_delete(request):
+    index = request.GET.get('index', None)
+    index and toolbar.delete_func(int(index))
     return HttpResponse(toolbar.record_panel.content())
 
 def code(request):
-    for item in toolbar.requests:
-        print item.url_reverse
     context = {
         'class_name': toolbar.class_name,
         'fixtures': toolbar.fixtures,
         'func_name': toolbar.func_name,
-        'requests': toolbar.requests,
+        'records': toolbar.records,
         'auth': settings.RECORDER_AUTH
     }
     

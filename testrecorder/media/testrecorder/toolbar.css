@@ -450,3 +450,20 @@ span.VarName {
 	font-weight: bolder;
 	
 }
+
+#djDebug #djDebugPanelList a span {
+	font-size: larger;
+	color: #00ff40;
+}
+
+#djDebug #djDebugPanelList a span.stop {
+	font-size: larger;
+	color: #ff0000;
+}
+
+#djDebug .panelContent tbody tr.djFunctionRow td {
+	background-color: #d7fff8;
+	padding: 4px;
+	font-size: 1.2em;
+	font-weight: bold;
+}

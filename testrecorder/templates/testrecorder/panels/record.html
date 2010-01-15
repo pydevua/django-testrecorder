@@ -11,22 +11,28 @@
 		</tr>
 	</thead>
 	{% for row in records %}
-		<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">
-			<td>{{ row.url }}</td>
-			<td>{{ row.method }}</td>
-			<td>
-				{% with row.get as vars %}
-					{% include 'testrecorder/panels/_request_vars.html' %}
-				{% endwith %}
-			</td>
-			<td>				
-				{% with row.post as vars %}
-					{% include 'testrecorder/panels/_request_vars.html' %}
-				{% endwith %}
-			</td>
-			<td>{{ row.code }}</td>
-			<td>{{ row.redirect_url }}</td>
-			<td><a class="djDeleteRequest" href="{{ BASE_URL }}/delete/?index={{ forloop.counter0 }}">delete</a></td>
+		<tr class="djFunctionRow">
+			<td colspan="6">{{ row.name }}</td>
+			<td><a class="djDeleteRequest" href="{{ BASE_URL }}/func_delete/?index={{ forloop.counter0 }}">delete</a></td>
 		</tr>
+		{% for item in row.records %}
+			<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">
+				<td>{{ item.url }}</td>
+				<td>{{ item.method }}</td>
+				<td>
+					{% with item.get as vars %}
+						{% include 'testrecorder/panels/_request_vars.html' %}
+					{% endwith %}
+				</td>
+				<td>				
+					{% with item.post as vars %}
+						{% include 'testrecorder/panels/_request_vars.html' %}
+					{% endwith %}
+				</td>
+				<td>{{ item.code }}</td>
+				<td>{{ item.redirect_url }}</td>
+				<td><a class="djDeleteRequest" href="{{ BASE_URL }}/delete/?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">delete</a></td>
+			</tr>
+		{% endfor %}
 	{% endfor %}	
 </table>

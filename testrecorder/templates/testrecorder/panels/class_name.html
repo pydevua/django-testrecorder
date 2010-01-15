@@ -4,6 +4,7 @@
 	jQuery(function($j){
 		$j('#set-testcase-class-name').click(function(){
 			var value = $j('#testcase-class-name').val();
+			$j('a.djDebugTestcaseNamePanel span').html(value);
 			if (value) {
 				$j.post('{{ BASE_URL }}/class_name/',
 						{'name': value},

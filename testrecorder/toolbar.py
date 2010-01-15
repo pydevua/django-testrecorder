@@ -26,8 +26,11 @@ class Toolbar(object):
         for item in patterns:
             self.ignore.append(re.compile(item))
              
-    def delete(self, index):
-        self.record_panel.delete(index)
+    def delete(self, func_index, index):
+        return self.record_panel.delete(func_index, index)
+    
+    def delete_func(self, index):
+        return self.record_panel.delete_func(index)     
     
     @property
     def panels(self):
@@ -38,8 +41,9 @@ class Toolbar(object):
             self.code_panel,                
         ]
     
-    def create_function(self, name):
+    def add_function(self, name):
         self.func_name = name
+        self.record_panel.add_function(name)
     
     def get_class_name(self):
         return self.cls_name_panel.class_name
@@ -58,7 +62,7 @@ class Toolbar(object):
     func_name = property(get_func_name, set_func_name)
     
     @property
-    def requests(self):
+    def records(self):
         return self.record_panel.data
     
     def is_valid_path(self, request):
@@ -71,6 +75,8 @@ class Toolbar(object):
     def process_response(self, request, response):
         self.is_valid_path(request)
         if self.start_record and self.is_valid_path(request):
+            if not self.record_panel.data:
+                self.add_function(self.func_name)
             self.record_panel.process_response(request, response)
     
     def render(self):

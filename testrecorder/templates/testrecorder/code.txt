@@ -11,7 +11,8 @@ class {{ class_name }}(TestCase):
 			'{{ key }}': '{{ value }}'{% if not forloop.last %},{% endif %}{% endfor %}
 		}{% endif %}
 	
-	def {{ func_name }}(self):{% if auth %}
+	{% for row in records %}
+	def {{ row.name }}(self):{% if auth %}
 		self.client.login(**self.auth){% endif %}
-	{% for item in requests %}{% include 'testrecorder/_test_request.txt' %}
-	{% endfor %}
+	{% for item in row.records %}{% include 'testrecorder/_test_request.txt' %}
+	{% endfor %}{% endfor %}

@@ -1,6 +1,7 @@
 from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
+from django.utils.safestring import mark_safe
 
 class FunctionNamePanel(Panel):
     
@@ -9,10 +10,11 @@ class FunctionNamePanel(Panel):
     function_name = 'test_func'
     
     def nav_title(self):
-        return 'Function name: %s' % self.function_name
+        mark_safe
+        return mark_safe('Current function: <span>%s</span>' % self.function_name)
 
     def title(self):
-        return 'Function name'
+        return 'Add function'
 
     def url(self):
         return ''

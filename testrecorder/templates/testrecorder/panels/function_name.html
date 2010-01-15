@@ -4,8 +4,9 @@
 	jQuery(function($j){
 		$j('#set-testcase-function-name').click(function(){
 			var value = $j('#testcase-function-name').val();
+			$j('a.djDebugFunctionNamePanel span').html(value);
 			if (value) {
-				$j.post('{{ BASE_URL }}/create_function/',
+				$j.post('{{ BASE_URL }}/add_function/',
 						{'name': value},
 						function(data, textStatus){
 							alert(textStatus);
