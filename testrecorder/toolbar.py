@@ -38,6 +38,9 @@ class Toolbar(object):
             self.code_panel,                
         ]
     
+    def create_function(self, name):
+        self.func_name = name
+    
     def get_class_name(self):
         return self.cls_name_panel.class_name
     

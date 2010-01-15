@@ -19,7 +19,6 @@ class FunctionNamePanel(Panel):
 
     def content(self):
         context = {
-            'function_name': self.function_name,
             'BASE_URL': '/%s' %  _PREFIX
         }
         return render_to_string('testrecorder/panels/function_name.html', context)    

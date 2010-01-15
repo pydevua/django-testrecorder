@@ -23,9 +23,7 @@ class Command(BaseCommand):
         from django.core.management import call_command
         from testrecorder.middleware import toolbar
         
-        if not fixture_labels and not settings.RECORDER_FIXTURES:
-            sys.exit('ERROR: Set fixtures in arguments or settings.RECORDER_FIXTURES')
-        else:
+        if not fixture_labels:
             fixture_labels = settings.RECORDER_FIXTURES
         toolbar.fixtures = fixture_labels
         call_command('testserver', *fixture_labels, **options)

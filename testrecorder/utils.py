@@ -1,4 +1,5 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
+from django.utils.encoding import smart_str
 
 class RequestRecord(object):
     
@@ -32,9 +33,10 @@ class RequestRecord(object):
     @property
     def url_reverse(self):
         resolver = get_resolver(None)
-        name = resolver.resolve_to_name(self.url)
-        view, args, kwargs = resolver.resolve(self.url)
-        args +=tuple(kwargs.values())
+        name, args, kwargs = resolver.resolve_to_name(self.url)
+        #view, args, kwargs = resolver.resolve(self.url)
+        args += tuple(kwargs.values())
+        args = map(smart_str, args)
         output = ['"%s"' % name]
         if args:
             output.append(', args=["%s"]' % '", "'.join(args))
@@ -64,7 +66,12 @@ def _pattern_resolve_to_name(self, path):
             name = self._callback_str
         else:
             name = "%s.%s" % (self.callback.__module__, self.callback.func_name)
-        return name
+        kwargs = match.groupdict()
+        if kwargs:
+            args = ()
+        else:
+            args = match.groups()         
+        return name, args, kwargs
 
 def _resolver_resolve_to_name(self, path):
     tried = []
@@ -73,14 +80,17 @@ def _resolver_resolve_to_name(self, path):
         new_path = path[match.end():]
         for pattern in self.url_patterns:
             try:
-                name = pattern.resolve_to_name(new_path)
+                sub_match = pattern.resolve_to_name(new_path)
             except Resolver404, e:
                 tried.extend([(pattern.regex.pattern + '   ' + t) for t in e.args[0]['tried']])
             else:
-                if name:
+                if sub_match:
+                    sub_match_dict = dict([(smart_str(k), v) for k, v in match.groupdict().items()])
+                    for k, v in sub_match[2].iteritems():
+                        sub_match_dict[smart_str(k)] = v 
                     if hasattr(self, 'namespace') and self.namespace:
-                        return '%s:%s' % (self.namespace, name) 
-                    return name 
+                        sub_match[0] = '%s:%s' % (self.namespace, sub_match[0])                                            
+                    return sub_match[0], sub_match[1], sub_match_dict 
                 tried.append(pattern.regex.pattern)
         raise Resolver404, {'tried': tried, 'path': new_path}
 
