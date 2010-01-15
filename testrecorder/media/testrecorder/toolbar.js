@@ -77,6 +77,13 @@ jQuery(function($j) {
 				return false;				
 			}
 			
+			$j('.djEdit').editable(djRecToolbarBASE_URL+'/change_func_name/', { 
+			      indicator : "save...",
+			      tooltip   : "Doubleclick to edit...",
+			      event     : "dblclick",
+			      style  : "inherit"
+			});
+			
 			$j('a.djDeleteRequest').click(_delete_record_handler);
 			
 			$j('a.jsStartRecord').click(function(e) {

@@ -6,7 +6,14 @@
 	if (typeof jQuery == 'undefined') {
 		var jquery_url = '{{ BASE_URL }}/m/jquery.js';
 		document.write(unescape('%3Cscript src="' + jquery_url + '" type="text/javascript"%3E%3C/script%3E'));
+		var jquery_edit_url = '{{ BASE_URL }}/m/jquery.jeditable.mini.js';
+		document.write(unescape('%3Cscript src="' + jquery_edit_url + '" type="text/javascript"%3E%3C/script%3E'));
 	}
+	if ((typeof jQuery == 'undefined') || (typeof jQuery.fn.editable == 'undefined')){
+		var jquery_edit_url = '{{ BASE_URL }}/m/jquery.jeditable.mini.js';
+		document.write(unescape('%3Cscript src="' + jquery_edit_url + '" type="text/javascript"%3E%3C/script%3E'));
+	}
+	var djRecToolbarBASE_URL = '{{ BASE_URL }}';
 </script>
 <script type="text/javascript" src="{{ BASE_URL }}/m/toolbar.js"></script>
 <script type="text/javascript" charset="utf-8">

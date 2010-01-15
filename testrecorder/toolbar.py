@@ -25,6 +25,11 @@ class Toolbar(object):
         patterns = settings.RECORDER_IGNORE
         for item in patterns:
             self.ignore.append(re.compile(item))
+    
+    def change_func_name(self, index, name):
+        self.record_panel.change_func_name(index, name)
+        if (len(self.record_panel.data) - 1) == index:
+            self.func_name = name
              
     def delete(self, func_index, index):
         return self.record_panel.delete(func_index, index)

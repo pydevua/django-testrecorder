@@ -12,6 +12,13 @@ class RecordPanel(Panel):
     def __init__(self):
         self.data = []
     
+    def change_func_name(self, index, name):
+        try:
+            self.data[index].name = name
+            return True
+        except IndexError:
+            return False        
+    
     def add_function(self, name):
         self.data.append(TestFunctionRecord(name))
     

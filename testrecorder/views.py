@@ -25,6 +25,13 @@ def class_name(request):
         toolbar.class_name = name
     return HttpResponse('{}')
 
+def change_func_name(request):
+    id = request.POST.get('id', None)
+    value = request.POST.get('value', None)
+    if id and value:
+        toolbar.change_func_name(int(id[4:]), value)
+    return HttpResponse(value)
+
 def add_function(request):
     name = request.POST.get('name', None)
     if name:
