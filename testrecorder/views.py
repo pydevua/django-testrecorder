@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from testrecorder.middleware import toolbar
 from django.conf import settings
+from django.core.management import call_command
 
 def media(request, path):
     parent = os.path.abspath(os.path.dirname(__file__))
@@ -28,6 +29,8 @@ def add_function(request):
     name = request.POST.get('name', None)
     if name:
         toolbar.add_function(name)
+    call_command('flush', interactive=False)
+    call_command('loaddata', *toolbar.fixtures)    
     return HttpResponse('{}')
 
 def delete(request):
