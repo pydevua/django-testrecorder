@@ -36,16 +36,12 @@ def delete(request):
     return HttpResponse(toolbar.record_panel.content())
 
 def code(request):
-    try:
-        auth = settings.RECORDER_SETTINGS['auth']
-    except (AttributeError, KeyError):
-        auth = None
     context = {
         'class_name': toolbar.class_name,
         'fixtures': toolbar.fixtures,
         'func_name': toolbar.func_name,
         'requests': toolbar.requests,
-        'auth': auth
+        'auth': settings.RECORDER_AUTH
     }
     
     return render_to_response('testrecorder/code.txt', context)

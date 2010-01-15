@@ -22,12 +22,9 @@ class Toolbar(object):
         
     def _init_inore_patterns(self):
         self.ignore = []
-        try:
-            patterns = settings.RECORDER_SETTINGS['ignore']
-            for item in patterns:
-                self.ignore.append(re.compile(item))
-        except (AttributeError, KeyError):
-            pass
+        patterns = settings.RECORDER_IGNORE
+        for item in patterns:
+            self.ignore.append(re.compile(item))
              
     def delete(self, index):
         self.record_panel.delete(index)
