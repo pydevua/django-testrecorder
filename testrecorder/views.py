@@ -22,6 +22,7 @@ def init(request):
     return HttpResponse('{}')
 
 def start(request):
+    print request.GET
     toolbar.start_record = True
     return HttpResponse('{}')
 

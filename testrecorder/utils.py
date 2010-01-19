@@ -1,5 +1,6 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
 from django.utils.encoding import smart_str
+from django.utils.http import urlencode
 
 class TestFunctionRecord(object):
     
@@ -32,6 +33,11 @@ class RequestRecord(object):
         
     def is_data(self):
         return self.get or self.post
+    
+    def get_param(self):
+        if self.method == 'POST' and self.get:
+            return '+"?%s"' % urlencode(self.get, 1)
+        return ''
     
     @property
     def data(self):
