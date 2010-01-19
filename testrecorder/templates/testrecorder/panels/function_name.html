@@ -9,7 +9,8 @@
 				$j.post('{{ BASE_URL }}/add_function/',
 						{'name': value},
 						function(data, textStatus){
-							alert(textStatus);
+							document.location = '/';
+							//alert(textStatus);
 							//if (textStatus != 'success') alert(textStatus);
 						}, 'json'
 				);

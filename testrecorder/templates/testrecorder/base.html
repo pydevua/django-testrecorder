@@ -71,5 +71,7 @@
 		{% endif %}
 	{% endfor %}
 	<div id="djDebugWindow" class="panelContent"></div>
-	
+	{% if init %}
+		{% include 'testrecorder/_init.html' %}
+	{% endif %}
 </div>

@@ -10,10 +10,10 @@ import re
 
 class Toolbar(object):
     
-    start_record = False
-    fixtures = []
-    
     def __init__(self):
+        self.init = True
+        self.start_record = False
+        self.fixtures = []        
         self.cls_name_panel = ClassNamePanel()
         self.func_name_panel = FunctionNamePanel()
         self.record_panel = RecordPanel()
@@ -88,6 +88,7 @@ class Toolbar(object):
         return render_to_string('testrecorder/base.html', {
             'panels': self.panels,
             'start': self.start_record,
+            'init': self.init,
             'BASE_URL': '/%s' %  _PREFIX,
         })
         

@@ -44,10 +44,6 @@ jQuery(function($j) {
 				$j.djDebug.toggle_content($j(this).parent().next());
 				return false;
 			});
-			$j('#djDebugSQLPanel a.djSQLShowStacktrace').click(function() {
-				$j.djDebug.toggle_content($j('.djSQLHideStacktraceDiv', $(this).parents('tr')));
-				return false;
-			});
 			$j('#djHideToolBarButton').click(function() {
 				$j.djDebug.hide_toolbar(true);
 				return false;

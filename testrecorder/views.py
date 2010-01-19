@@ -11,6 +11,16 @@ def media(request, path):
     root = os.path.join(parent, 'media', 'testrecorder')
     return django.views.static.serve(request, path, root)
 
+def init(request):
+    class_name = request.POST.get('class_name', None)
+    func_name = request.POST.get('func_name', None)
+    if class_name:
+        toolbar.class_name = class_name
+    if func_name:
+        toolbar.add_function(func_name)
+    toolbar.init = False            
+    return HttpResponse('{}')
+
 def start(request):
     toolbar.start_record = True
     return HttpResponse('{}')
