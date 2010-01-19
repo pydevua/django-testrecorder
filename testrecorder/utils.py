@@ -57,14 +57,30 @@ class RequestRecord(object):
     def url_reverse(self):
         resolver = get_resolver(None)
         name, args, kwargs = resolver.resolve_to_name(self.url)
-        #view, args, kwargs = resolver.resolve(self.url)
         args += tuple(kwargs.values())
         args = map(smart_str, args)
         output = ['"%s"' % name]
         if args:
             output.append(', args=["%s"]' % '", "'.join(args))
-        return ''.join(output)       
-        
+        return ''.join(output)
+    
+    def is_url_short(self):
+        resolver = get_resolver(None)
+        name, args, kwargs = resolver.resolve_to_name(self.url)
+        args += tuple(kwargs.values())
+        return not (args or self.get_param())               
+    
+    def is_data_short(self):
+        return len(self.data) <= 1
+    
+    @property
+    def short_data(self):
+        output = []
+        for key, value in self.data:
+            s = "'%s': %s" % (key, ', '.join(value))
+            output.append(s)
+        return '{%s}' % ', '.join(output)
+            
 def replace_insensitive(string, target, replacement):
     """
     Similar to string.replace() but is case insensitive
