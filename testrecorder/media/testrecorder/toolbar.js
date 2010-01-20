@@ -23,7 +23,7 @@ jQuery(function($j) {
 					$j(this).parent().addClass('active');
 				}
 				return false;
-			});
+			});	
 			$j('#djDebug a.djDebugClose').click(function() {
 				$j(document).trigger('close.djDebug');
 				$j('#djDebugToolbar li').removeClass('active');

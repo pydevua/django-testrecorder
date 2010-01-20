@@ -10,7 +10,7 @@
 					<td><input type="text" id="djInitFunctionNameInput"/></td>
 				</tr>
 			</table>
-			<button id="djInitButton">Ok</button>
+			<button id="djInitButton">Start</button>
 		</div>
 		<script type="text/javascript">
 			jQuery(function($j) {
@@ -25,10 +25,12 @@
 							$j('a.djDebugTestcaseNamePanel span').html(class_name);
 							$j('a.djDebugFunctionNamePanel span').html(func_name);
 							$j('#djInitWindow').remove();
+							$j('a.jsStartRecord').hide();
+							$j('a.jsStopRecord').show();							
 						}, 'json')
 					}else{//if
 						$j('#djInitWindow h3').html('Fill all fields!');
 					}//else
-				});
+				});		
 			});
 		</script>

@@ -18,11 +18,11 @@ def init(request):
         toolbar.class_name = class_name
     if func_name:
         toolbar.add_function(func_name)
-    toolbar.init = False            
+    toolbar.init = False
+    toolbar.start_record = True            
     return HttpResponse('{}')
 
 def start(request):
-    print request.GET
     toolbar.start_record = True
     return HttpResponse('{}')
 
