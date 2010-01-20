@@ -39,7 +39,7 @@ class TestRecorderMiddleware(object):
             return False
         if request.path.startswith(os.path.join('/', testrecorder.urls._PREFIX)):
             return False
-        if request.path.startswith(settings.MEDIA_URL):
+        if len(settings.MEDIA_URL) and request.path.startswith(settings.MEDIA_URL):
             return False
         return True
     
