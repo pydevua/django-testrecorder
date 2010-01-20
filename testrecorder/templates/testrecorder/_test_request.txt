@@ -2,8 +2,8 @@
 		data = {
 			{% for key, value in item.data %}'{{ key }}': {% if value|length_is:"1" %}'{{ value.0 }}'{% else %}['{{ value|join:"', '" }}']{% endif %}{% if not forloop.last %},{% endif %}
 		{% if forloop.last %}}{% else %}	{% endif %}{% endfor %}{% endif %}{% if item.is_url_short %}
-		response = self.client.{{ item.method|lower }}(reverse({{ item.url_reverse|safe }}){% if item.is_data %}{% if item.is_data_short %}, {{ item.short_data }}{% else %}, data{% endif %}{% endif %}){% else %}
+		response = self.client.{{ item.method|lower }}(reverse({{ item.url_reverse|safe }}){% include 'testrecorder/_request_data.txt' %}){% else %}
 		url = reverse({{ item.url_reverse|safe }}){{ item.get_param|safe }}
-		response = self.client.{{ item.method|lower }}(url{% if item.is_data %}, data{% endif %}){% endif %}
+		response = self.client.{{ item.method|lower }}(url{% include 'testrecorder/_request_data.txt' %}){% endif %}
 		self.failUnlessEqual(response.status_code, {{ item.code }}){% if item.redirect_url %}
 		self.failUnlessEqual(response['Location'], 'http://testserver{{ item.redirect_url }}'){% endif %}

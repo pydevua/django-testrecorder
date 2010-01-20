@@ -77,7 +77,7 @@ class RequestRecord(object):
     def short_data(self):
         output = []
         for key, value in self.data:
-            s = "'%s': %s" % (key, ', '.join(value))
+            s = "'%s': '%s'" % (key, ', '.join(value))
             output.append(s)
         return '{%s}' % ', '.join(output)
             
