@@ -10,7 +10,6 @@ class {{ class_name }}(TestCase):
 		{% if auth %}self.auth = {{% for key, value in auth.items %}
 			'{{ key }}': '{{ value }}'{% if not forloop.last %},{% endif %}{% endfor %}
 		}{% endif %}
-	
 	{% for row in records %}
 	def {{ row.name }}(self):{% if auth %}
 		self.client.login(**self.auth){% endif %}

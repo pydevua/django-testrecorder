@@ -73,7 +73,15 @@ class RequestRecord(object):
         return not (args or self.get_param())               
     
     def is_data_short(self):
-        return len(self.data) <= 1
+        if len(self.data) <= 1:
+            for value in self.data:
+                if self.is_multiline(value):
+                    return False
+            return True
+        return False
+    
+    def is_multiline(self, value):
+        return len(str(value).splitlines()) > 1
     
     @property
     def short_data(self):

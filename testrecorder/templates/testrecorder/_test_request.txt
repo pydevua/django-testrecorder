@@ -1,6 +1,6 @@
-		{% if item.is_data and not item.is_data_short %}
+		{% load code_tags %}{% if item.is_data and not item.is_data_short %}
 		data = {
-			{% for key, value in item.data %}'{{ key }}': {% if value|length_is:"1" %}'{{ value.0 }}'{% else %}['{{ value|join:"', '" }}']{% endif %}{% if not forloop.last %},{% endif %}
+			{% for key, value in item.data %}'{{ key }}': {% if value|length_is:"1" %}{{ value.0|data_value }}{% else %}['{{ value|join:"', '" }}']{% endif %}{% if not forloop.last %},{% endif %}
 		{% if forloop.last %}}{% else %}	{% endif %}{% endfor %}{% endif %}{% if item.is_url_short %}
 		response = self.client.{{ item.method|lower }}(reverse({{ item.url_reverse|safe }}){% include 'testrecorder/_request_data.txt' %}){% else %}
 		url = reverse({{ item.url_reverse|safe }}){{ item.get_param|safe }}
