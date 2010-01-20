@@ -57,7 +57,9 @@ class RequestRecord(object):
     def url_reverse(self):
         resolver = get_resolver(None)
         name, args, kwargs = resolver.resolve_to_name(self.url)
-        args += tuple(kwargs.values())
+        values = kwargs.values()
+        values.reverse()
+        args += tuple(values)
         args = map(smart_str, args)
         output = ['"%s"' % name]
         if args:
