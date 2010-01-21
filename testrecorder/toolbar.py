@@ -28,7 +28,7 @@ class Toolbar(object):
     
     def change_func_name(self, index, name):
         self.record_panel.change_func_name(index, name)
-        if (len(self.record_panel.data) - 1) == index:
+        if (len(self.record_panel.store) - 1) == index:
             self.func_name = name
              
     def delete(self, func_index, index):
@@ -68,7 +68,7 @@ class Toolbar(object):
     
     @property
     def records(self):
-        return self.record_panel.data
+        return self.record_panel.store
     
     def is_valid_path(self, request):
         path = request.path_info
@@ -80,7 +80,7 @@ class Toolbar(object):
     def process_response(self, request, response):
         self.is_valid_path(request)
         if self.start_record and self.is_valid_path(request):
-            if not self.record_panel.data:
+            if not self.record_panel.store:
                 self.add_function(self.func_name)
             self.record_panel.process_response(request, response)
     

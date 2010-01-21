@@ -2,6 +2,38 @@ from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode
 
+class ActionStorage(object):
+    
+    def __init__(self):
+        self.data = []
+        
+    def rename_func(self, index, name):
+        self.data[index].name = name
+        
+    def add_function(self, name):
+        self.data.append(TestFunctionRecord(name))
+        
+    def delete_request(self, func_index, index):
+        self.data[func_index].delete(index)
+    
+    def add_request(self, request, response):
+        self.data[-1].add(RequestRecord(request, response))        
+        
+    def delete_func(self, index):
+        del self.data[index]
+        
+    def get_data(self):
+        return self.data
+    
+    def __len__(self):
+        return len(self.data)
+    
+    def __iter__(self):
+        return iter(self.data)
+    
+    def __nonzero__(self):
+        return bool(self.data)
+        
 class TestFunctionRecord(object):
     
     def __init__(self, name, *args, **kwargs):
