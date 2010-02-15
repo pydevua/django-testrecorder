@@ -237,13 +237,9 @@ class RequestRecord(object):
     def url_reverse(self):
         resolver = get_resolver(None)
         name, args, kwargs = resolver.resolve_to_name(self.url)
-        values = kwargs.values()
-        values.reverse()
-        args += tuple(values)
-        args = map(smart_str, args)
         output = ['"%s"' % name]
-        if args:
-            output.append(', args=["%s"]' % '", "'.join(args))
+        if kwargs:
+            output.append(', kwargs=%s' % self.to_short_dict(kwargs))
         return ''.join(output)
     
     def is_url_short(self):
@@ -263,6 +259,13 @@ class RequestRecord(object):
     def is_multiline(self, value):
         return len(str(value).splitlines()) > 1
     
+    def to_short_dict(self, data):
+        output = []
+        for key, value in data.items():
+            s = '"%s": "%s"' % (key, value)
+            output.append(s)
+        return '{%s}' % ', '.join(output)
+        
     @property
     def short_data(self):
         output = []
