@@ -65,6 +65,12 @@ jQuery(function($j) {
 				$j('#djDebugPanelList li a.djDebugCodePanel').click();
 			});
 			
+			$j('.djAddAssertion').click(function(){
+				$j('#assertion-input').data('url', $j(this).attr('href'));
+				$j('.djDebugAssertionPanel').click();
+				return false;
+			});
+			
 			function _delete_record_handler(){
 				$j.get(this.href, {}, function(data){
 					$j('#djDebugRecordRequestsPanel div.scroll').html(data);

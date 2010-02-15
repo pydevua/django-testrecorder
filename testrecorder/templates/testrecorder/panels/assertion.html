@@ -1,0 +1,28 @@
+<input type='text' id='assertion-input' value='' size='100'/>
+<button id='add-assertion-button'>Add</button>
+{% include 'testrecorder/panels/_assertion_content.html'%}
+<script type='text/javascript'>
+	jQuery(function($j){
+		$j('#djDebugAssertionPanel div.scroll div a').click(function(){
+			$j('#assertion-input').val($j(this).text().replace(/TestCase/, 'self'));
+			return false;
+		});
+		$j('#add-assertion-button').click(function(){
+			var input = $j('#assertion-input');
+			var value = input.val();
+			var url = input.data('url');
+			if ( ! url) url = '{{ BASE_URL }}/assertion/';
+			if (value) {
+				$j.post(url,
+						{'value': value},
+						function(data, textStatus){
+							alert(textStatus);
+							input.val('');
+						}, 'json'
+				);
+			}else{
+				alert('Add assertion');
+			}
+		});
+	});
+</script>

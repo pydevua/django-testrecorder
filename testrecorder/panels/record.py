@@ -31,6 +31,14 @@ class RecordPanel(Panel):
     def url(self):
         return ''
     
+    def add_assertion(self, value, func_index=None, index=None):
+        try:
+            self.store.add_assertion(value, func_index, index)
+            return True
+        except IndexError:
+            return False
+
+    
     def delete(self, func_index, index):
         try:
             self.store.delete_request(func_index, index)

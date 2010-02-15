@@ -64,5 +64,15 @@ def func_delete(request):
 
 def code(request):
     return HttpResponse(toolbar.get_code())
-    
+
+def assertion(request):
+    index = request.GET.get('index', None)
+    func_index = request.GET.get('func_index', None)
+    value = request.POST.get('value', None)
+    if not index is None:
+        index = int(index)
+    if not func_index is None:
+        func_index = int(func_index)        
+    value and toolbar.add_assertion(value, func_index, index)    
+    return HttpResponse('{}')    
     

@@ -7,6 +7,7 @@ from testrecorder.panels.classname import ClassNamePanel
 from testrecorder.panels.functionname import FunctionNamePanel
 from testrecorder.panels.record import RecordPanel
 from testrecorder.panels.code import CodePanel
+from testrecorder.panels.assertion import AssertionPanel
 import re
 
 class Toolbar(object):
@@ -19,6 +20,7 @@ class Toolbar(object):
         self.func_name_panel = FunctionNamePanel()
         self.record_panel = RecordPanel()
         self.code_panel = CodePanel()
+        self.assertion_panel = AssertionPanel()
         self._init_inore_patterns()
         
     def _init_inore_patterns(self):
@@ -35,6 +37,9 @@ class Toolbar(object):
     def delete(self, func_index, index):
         return self.record_panel.delete(func_index, index)
     
+    def add_assertion(self, value, func_index=None, index=None):
+        return self.record_panel.add_assertion(value, func_index, index)
+    
     def delete_func(self, index):
         return self.record_panel.delete_func(index)     
     
@@ -43,8 +48,9 @@ class Toolbar(object):
         return [
             self.cls_name_panel,
             self.func_name_panel,
+            self.assertion_panel,
             self.record_panel,
-            self.code_panel,                
+            self.code_panel,
         ]
     
     def add_function(self, name):

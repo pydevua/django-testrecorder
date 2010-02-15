@@ -115,6 +115,8 @@ class TestGenerator(object):
         node.add('self.failUnlessEqual(response.status_code, %s)' % request.code)
         if request.redirect_url:
             node.add('self.failUnlessEqual(response["Location"], "http://testserver%s")' % request.redirect_url)
+        for assertion in request.assertions:
+            node.add(assertion)
         return node.blank()
     
     def add_func(self, func, node):
@@ -153,6 +155,13 @@ class ActionStorage(object):
     
     def add_request(self, request, response):
         self.data[-1].add(RequestRecord(request, response))        
+    
+    def add_assertion(self, value, func_index=None, index=None):
+        if func_index is None:
+            func_index = len(self.data) - 1
+        if index is None:
+            index = len(self.data[func_index].records) - 1
+        self.data[func_index].records[index].add_assertion(value)
         
     def delete_func(self, index):
         del self.data[index]
@@ -197,6 +206,10 @@ class RequestRecord(object):
         self.redirect_url = response.get('Location', '') 
         if self.redirect_url and not self.redirect_url.startswith('/'):
             self.redirect_url = '/'+self.redirect_url
+        self.assertions = []
+    
+    def add_assertion(self, value):
+        self.assertions.append(value)
         
     def is_data(self):
         return self.get or self.post

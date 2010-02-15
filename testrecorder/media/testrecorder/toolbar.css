@@ -478,3 +478,18 @@ span.VarName {
 	font-size: 1.2em;
 	font-weight: bold;
 }
+
+#djDebugAssertionPanel div.scroll div a {
+	color: #008080;
+	font-size: 1.2em;
+	font-weight: bolder;
+}
+
+#djDebugAssertionPanel div.scroll div {
+	margin: 5px;
+}
+
+#djDebugRecordRequestsPanel div.scroll a {
+	color: #008080;
+	font-weight: bolder;
+}
