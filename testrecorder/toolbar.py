@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 from testrecorder.panels import Panel
+from testrecorder.utils import TestGenerator
 from django.conf import settings
 from testrecorder.panels.classname import ClassNamePanel
 from testrecorder.panels.functionname import FunctionNamePanel
@@ -91,5 +92,8 @@ class Toolbar(object):
             'init': self.init,
             'BASE_URL': '/%s' %  _PREFIX,
         })
+    
+    def get_code(self):
+        return TestGenerator(self.class_name, self.fixtures, settings.RECORDER_AUTH, self.record_panel.store).render()
         
 toolbar = Toolbar()

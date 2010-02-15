@@ -63,14 +63,6 @@ def func_delete(request):
     return HttpResponse(toolbar.record_panel.content())
 
 def code(request):
-    context = {
-        'class_name': toolbar.class_name,
-        'fixtures': toolbar.fixtures,
-        'func_name': toolbar.func_name,
-        'records': toolbar.records,
-        'auth': settings.RECORDER_AUTH
-    }
-    
-    return render_to_response('testrecorder/code.txt', context)
+    return HttpResponse(toolbar.get_code())
     
     

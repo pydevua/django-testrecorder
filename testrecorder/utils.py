@@ -2,6 +2,141 @@ from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode
 
+class CodeNode(object):
+    
+    def __init__(self, level=0, tab='    '):
+        self.code = []
+        self.level = level
+        self.tab = tab
+    
+    def child_node(self):
+        return CodeNode(self.level, self.tab)
+        
+    def add(self, string):
+        if string is None:
+            return self
+        if isinstance(string, CodeNode):
+            self.code.append(str(string))
+        else:
+            self.code.append(self.tab * self.level + string+'\n')
+        return self
+
+    def indent(self):
+        self.level += 1
+        return self
+        
+    def dedent(self):
+        if self.level == 0:
+            raise SyntaxError, "internal error in code generator"
+        self.level -= 1
+        return self
+    
+    def blank(self):
+        return self.add('')
+    
+    def render(self):
+        return ''.join(self.code)
+
+    def __str__(self):
+        return self.render()
+    
+class TestGenerator(object):
+    
+    def __init__(self, class_name, fixtures, auth, store):
+        self.class_name = class_name
+        self.fixtures = fixtures
+        self.auth = auth
+        self.store = store
+    
+    def add_imports(self, node):
+        node.add('from django.test import TestCase')
+        node.add('from django.test.client import Client')
+        node.add('from django.core.urlresolvers import reverse')
+        return node        
+    
+    def add_fixtures(self, node):
+        if self.fixtures:
+            node.add('fixtures = ["%s"]' % '", "'.join(self.fixtures)).blank()
+        return node
+    
+    def dict_values(self, values):
+        
+        def get_value(val):
+            if len(str(val).splitlines()) > 1:
+                return '"""%s"""' % val
+            if isinstance(val, list):
+                if len(val) > 1:
+                    return '[%s]' % ', '.join(map(get_value, val))
+                elif len(val) == 1:
+                    return get_value(val[0])
+                else:
+                    return ''
+            return '"%s"' % str(val)                
+        
+        values_length = len(values)
+        for i, item in enumerate(values):
+            string = '"%s": %s' % (item[0], get_value(item[1]))
+            if not i == (values_length - 1): string += ','
+            yield string
+                
+    def add_auth(self, node):
+        node.add('self.auth = {').indent()
+        for item in self.dict_values(self.auth.items()):
+            node.add(item)
+        node.dedent().add('}')
+        return node        
+    
+    def add_setup(self, node):
+        if not self.auth:
+            return
+        node.add('def setUp(self):').indent()
+        auth_node = self.add_auth(node.child_node())
+        return node.add(auth_node).dedent()   
+    
+    def add_request(self, request, node):
+        if request.is_data() and not request.is_data_short():
+            node.add('data = {').indent()
+            for item in self.dict_values(request.data):
+                node.add(item)
+            node.dedent().add('}')
+        if request.is_url_short():
+            url = 'reverse(%s)' % request.url_reverse
+        else:
+            url = 'url'
+            node.add('url = reverse(%s)%s' % (request.url_reverse, request.get_param()))
+        if request.is_data():
+            if request.is_data_short():
+                data = request.short_data
+            else:
+                data = ', data'
+        else:
+            data = ''
+        node.add('response = self.client.%s(%s%s)' % (request.method.lower(), url, data))
+        node.add('self.failUnlessEqual(response.status_code, %s)' % request.code)
+        if request.redirect_url:
+            node.add('self.failUnlessEqual(response["Location"], "http://testserver%s")' % request.redirect_url)
+        return node.blank()
+    
+    def add_func(self, func, node):
+        node.blank().add('def %s(self):' % func.name).indent()
+        if self.auth:
+            node.add('self.client.login(**self.auth)').blank()
+        for item in func.records:
+            self.add_request(item, node)
+    
+    def render(self):
+        node = CodeNode()
+        self.add_imports(node)
+        node.blank().add('class %s(TestCase):' % self.class_name).indent()
+        self.add_fixtures(node)
+        self.add_setup(node)
+        for item in self.store:
+            self.add_func(item, node)
+        return node.render()
+        
+    def __unicode__(self):
+        return self.render()
+
 class ActionStorage(object):
     
     def __init__(self):
