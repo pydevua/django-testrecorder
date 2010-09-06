@@ -1,6 +1,8 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 class CodeNode(object):
     
@@ -51,6 +53,8 @@ class TestGenerator(object):
     def add_imports(self, node):
         node.add('from django.test import TestCase')
         node.add('from django.core.urlresolvers import reverse')
+        node.add('from django.conf import settings')
+        node.add('from os import path')
         return node        
     
     def add_fixtures(self, node):
@@ -63,6 +67,8 @@ class TestGenerator(object):
         def get_value(val):
             if len(str(val).splitlines()) > 1:
                 return '"""%s"""' % val
+            if isinstance(val, FileProxy):
+                return 'open(path.join(settings.MEDIA_ROOT, "%s"))' % val.path
             if isinstance(val, list):
                 if len(val) > 1:
                     return '[%s]' % ', '.join(map(get_value, val))
@@ -193,14 +199,24 @@ class TestFunctionRecord(object):
         except IndexError:
             return False
         
+class FileProxy(object):
+
+    def __init__(self, path):
+        self.path = path
     
 class RequestRecord(object):
+    
+    file_store = FileSystemStorage()
     
     def __init__(self, request, response):
         self.url = request.path_info
         self.method = request.method
         self.get = [(k, request.GET.getlist(k)) for k in request.GET]
         self.post = [(k, request.POST.getlist(k)) for k in request.POST]
+        self.files = []
+        for field_name, file in request.FILES.items():
+            file_path = self.file_store.save(settings.RECORDER_FILES_PATH+file.name, file)
+            self.files.append((field_name, FileProxy(file_path)))
         self.code = response.status_code
         self.redirect_url = response.get('Location', '') 
         if self.redirect_url and not self.redirect_url.startswith('/'):
@@ -223,7 +239,7 @@ class RequestRecord(object):
         if self.method == 'GET':
             return self.get
         if self.method == 'POST':
-            return self.post
+            return self.post+self.files
         return []
     
     def render_data(self):
