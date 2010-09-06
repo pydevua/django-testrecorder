@@ -50,7 +50,6 @@ class TestGenerator(object):
     
     def add_imports(self, node):
         node.add('from django.test import TestCase')
-        node.add('from django.test.client import Client')
         node.add('from django.core.urlresolvers import reverse')
         return node        
     
@@ -106,7 +105,7 @@ class TestGenerator(object):
             node.add('url = reverse(%s)%s' % (request.url_reverse, request.get_param()))
         if request.is_data():
             if request.is_data_short():
-                data = request.short_data
+                data = ', %s' % request.short_data
             else:
                 data = ', data'
         else:
