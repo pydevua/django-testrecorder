@@ -201,8 +201,12 @@ class TestFunctionRecord(object):
         
 class FileProxy(object):
 
-    def __init__(self, path):
+    def __init__(self, path, store):
         self.path = path
+        self.store = store
+        
+    def __del__(self):
+        self.store.delete(self.path)
     
 class RequestRecord(object):
     
@@ -216,7 +220,7 @@ class RequestRecord(object):
         self.files = []
         for field_name, file in request.FILES.items():
             file_path = self.file_store.save(settings.RECORDER_FILES_PATH+file.name, file)
-            self.files.append((field_name, FileProxy(file_path)))
+            self.files.append((field_name, FileProxy(file_path, self.file_store)))
         self.code = response.status_code
         self.redirect_url = response.get('Location', '') 
         if self.redirect_url and not self.redirect_url.startswith('/'):
