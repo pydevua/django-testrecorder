@@ -3,6 +3,7 @@ from django.utils.encoding import smart_str
 from django.utils.http import urlencode
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.http import Http404
 
 class CodeNode(object):
     
@@ -105,10 +106,10 @@ class TestGenerator(object):
                 node.add(item)
             node.dedent().add('}')
         if request.is_url_short():
-            url = 'reverse(%s)' % request.url_reverse
+            url = request.url_reverse
         else:
             url = 'url'
-            node.add('url = reverse(%s)%s' % (request.url_reverse, request.get_param()))
+            node.add('url = %s' % (request.url_reverse, request.get_param()))
         if request.is_data():
             if request.is_data_short():
                 data = ', %s' % request.short_data
@@ -255,17 +256,23 @@ class RequestRecord(object):
     @property
     def url_reverse(self):
         resolver = get_resolver(None)
-        name, args, kwargs = resolver.resolve_to_name(self.url)
-        output = ['"%s"' % name]
-        if kwargs:
-            output.append(', kwargs=%s' % self.to_short_dict(kwargs))
-        return ''.join(output)
+        try:
+            name, args, kwargs = resolver.resolve_to_name(self.url)
+            output = ['"%s"' % name]
+            if kwargs:
+                output.append(', kwargs=%s' % self.to_short_dict(kwargs))
+            return 'reverse(%s)' % ''.join(output)
+        except Http404:
+            return '"%s"' % self.url
     
     def is_url_short(self):
         resolver = get_resolver(None)
-        name, args, kwargs = resolver.resolve_to_name(self.url)
-        args += tuple(kwargs.values())
-        return not (args or self.get_param())               
+        try:
+            name, args, kwargs = resolver.resolve_to_name(self.url)
+            args += tuple(kwargs.values())
+            return not (args or self.get_param())
+        except Http404:
+            return True
     
     def is_data_short(self):
         if len(self.data) <= 1:
