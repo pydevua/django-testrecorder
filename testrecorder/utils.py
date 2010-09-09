@@ -69,7 +69,7 @@ class TestGenerator(object):
             if len(str(val).splitlines()) > 1:
                 return '"""%s"""' % val
             if isinstance(val, FileProxy):
-                return 'open(path.join(settings.MEDIA_ROOT, "%s"))' % val.path
+                return 'open(path.join(settings.MEDIA_ROOT, "%s"), "rb")' % val.path
             if isinstance(val, list):
                 if len(val) > 1:
                     return '[%s]' % ', '.join(map(get_value, val))
