@@ -1,13 +1,17 @@
+====================
+django-test-recorder
+====================
+
 Tool for generating tests for Django projects.
 
-#Using:
+#Using:#
 
-Run `./manage.py recorderserver [fixture.json]` and visit http://127.0.0.1:8000.
+Run ./manage.py recorderserver [fixture.json] and visit http://127.0.0.1:8000.
 This command support same options like "testserver" command.
 
-#Examples of settings:
+#Examples of settings:#
 
-`import sys
+import sys
 sys.path.insert(0, '/some_path/test-recorder') #or just copy it to PYTHONPATH
 
 INSTALLED_APPS += (
@@ -22,11 +26,11 @@ RECORDER_AUTH = {
 RECORDER_FIXTURES = ['test.json']
 RECORDER_IGNORE = (
     '^/admin.*',      
-)`
+)
 
 For all available settings see testrecorder.settings.py
 
-#More
+#More#
 
 Tested with Django 1.1+. 
 The project code and bugtracker is hosted on http://github.com/pydevua/django-testrecorder.
