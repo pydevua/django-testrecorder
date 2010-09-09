@@ -18,7 +18,7 @@
 					var class_name = $j('#djInitClassNameInput').val();
 					var func_name = $j('#djInitFunctionNameInput').val();
 					if (class_name && func_name){
-						$j.post(djRecToolbarBASE_URL+'/init/', {
+						$j.post(djRecToolbar.BASE_URL+'/init/', {
 							'class_name': class_name,
 							'func_name': func_name
 						}, function(data){
@@ -26,7 +26,8 @@
 							$j('a.djDebugFunctionNamePanel span').html(func_name);
 							$j('#djInitWindow').remove();
 							$j('a.jsStartRecord').hide();
-							$j('a.jsStopRecord').show();							
+							$j('a.jsStopRecord').show();
+                            $j.djDebug.update_requests();
 						}, 'json')
 					}else{//if
 						$j('#djInitWindow h3').html('Fill all fields!');

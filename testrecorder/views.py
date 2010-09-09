@@ -73,4 +73,7 @@ def assertion(request):
         func_index = int(func_index)        
     value and toolbar.add_assertion(value, func_index, index)    
     return HttpResponse('{}')    
+
+def load_requests(request):
+    return HttpResponse(toolbar.record_panel.content())
     

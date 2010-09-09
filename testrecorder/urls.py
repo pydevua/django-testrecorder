@@ -15,4 +15,5 @@ urlpatterns = patterns('testrecorder.views',
     url(r'^%s/func_delete/$' % _PREFIX, 'func_delete'),
     url(r'^%s/change_func_name/$' % _PREFIX, 'change_func_name'),
     url(r'^%s/assertion/$' % _PREFIX, 'assertion'),
+    url(r'^%s/load_requests/$' % _PREFIX, 'load_requests'),    
 )
