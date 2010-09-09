@@ -5,8 +5,8 @@ from testrecorder.toolbar import toolbar
 import os
 import testrecorder.urls
 from django.utils.encoding import smart_unicode
-from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
+from testrecorder.settings import AUTH, AUTOLOGIN
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 _STATUS_CODES = (200, 302)
@@ -46,7 +46,7 @@ class TestRecorderMiddleware(object):
 class AutoLoginMiddleware(object):
 
     def process_request(self, request):
-        if not request.user.is_authenticated() and settings.RECORDER_AUTH \
-            and settings.RECORDER_AUTOLOGIN:
-                user = authenticate(**settings.RECORDER_AUTH)
+        if not request.user.is_authenticated() and AUTH \
+            and AUTOLOGIN:
+                user = authenticate(**AUTH)
                 user and login(request, user)

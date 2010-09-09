@@ -1,13 +1,12 @@
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
-from testrecorder.panels import Panel
 from testrecorder.utils import TestGenerator
-from django.conf import settings
 from testrecorder.panels.classname import ClassNamePanel
 from testrecorder.panels.functionname import FunctionNamePanel
 from testrecorder.panels.record import RecordPanel
 from testrecorder.panels.code import CodePanel
 from testrecorder.panels.assertion import AssertionPanel
+from testrecorder.settings import IGNORE, AUTH
 import re
 
 class Toolbar(object):
@@ -25,7 +24,7 @@ class Toolbar(object):
         
     def _init_inore_patterns(self):
         self.ignore = []
-        patterns = settings.RECORDER_IGNORE
+        patterns = IGNORE
         for item in patterns:
             self.ignore.append(re.compile(item))
     
@@ -100,6 +99,6 @@ class Toolbar(object):
         })
     
     def get_code(self):
-        return TestGenerator(self.class_name, self.fixtures, settings.RECORDER_AUTH, self.record_panel.store).render()
+        return TestGenerator(self.class_name, self.fixtures, AUTH, self.record_panel.store).render()
         
 toolbar = Toolbar()

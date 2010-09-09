@@ -1,7 +1,7 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode
-from django.conf import settings
+from testrecorder.settings import FILES_PATH
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 
@@ -220,7 +220,7 @@ class RequestRecord(object):
         self.post = [(k, request.POST.getlist(k)) for k in request.POST]
         self.files = []
         for field_name, file in request.FILES.items():
-            file_path = self.file_store.save(settings.RECORDER_FILES_PATH+file.name, file)
+            file_path = self.file_store.save(FILES_PATH+file.name, file)
             self.files.append((field_name, FileProxy(file_path, self.file_store)))
         self.code = response.status_code
         self.redirect_url = response.get('Location', '') 

@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from optparse import make_option
 import sys
+from testrecorder.settings import FIXTURES 
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
@@ -15,7 +16,6 @@ class Command(BaseCommand):
     requires_model_validation = False
     
     def __init__(self, *args, **kwargs):
-        self._set_default_settings()
         self._set_middlewares()
         super(Command, self).__init__(*args, **kwargs)
     
@@ -24,16 +24,9 @@ class Command(BaseCommand):
         from testrecorder.middleware import toolbar
         
         if not fixture_labels:
-            fixture_labels = settings.RECORDER_FIXTURES
+            fixture_labels = FIXTURES
         toolbar.fixtures = fixture_labels
         call_command('testserver', *fixture_labels, **options)
-    
-    def _set_default_settings(self):
-         from testrecorder import default_settings
-         
-         for setting in dir(default_settings):
-             if not hasattr(settings, setting):
-                 setattr(settings, setting, getattr(default_settings, setting))
      
     def _set_middlewares(self):
         middleware_name = 'testrecorder.middleware.TestRecorderMiddleware'

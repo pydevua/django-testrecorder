@@ -1,8 +1,7 @@
 from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
-from django.core.urlresolvers import reverse
-from testrecorder.utils import RequestRecord, TestFunctionRecord, ActionStorage
+from testrecorder.utils import ActionStorage
 
 class RecordPanel(Panel):
     

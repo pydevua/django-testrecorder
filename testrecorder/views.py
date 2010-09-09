@@ -1,9 +1,7 @@
 import os
 import django.views.static
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
 from testrecorder.middleware import toolbar
-from django.conf import settings
 from django.core.management import call_command
 
 def media(request, path):
