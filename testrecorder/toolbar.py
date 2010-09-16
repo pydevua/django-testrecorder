@@ -6,6 +6,7 @@ from testrecorder.panels.functionname import FunctionNamePanel
 from testrecorder.panels.record import RecordPanel
 from testrecorder.panels.code import CodePanel
 from testrecorder.panels.assertion import AssertionPanel
+from testrecorder.panels.fixture import FixturePanel
 from testrecorder.settings import IGNORE, AUTH
 import re
 
@@ -20,6 +21,7 @@ class Toolbar(object):
         self.record_panel = RecordPanel()
         self.code_panel = CodePanel()
         self.assertion_panel = AssertionPanel()
+        self.fixture_panel = FixturePanel()
         self._init_inore_patterns()
         
     def _init_inore_patterns(self):
@@ -50,6 +52,7 @@ class Toolbar(object):
             self.assertion_panel,
             self.record_panel,
             self.code_panel,
+            self.fixture_panel
         ]
     
     def add_function(self, name):
