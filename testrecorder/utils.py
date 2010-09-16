@@ -11,9 +11,18 @@ class CodeNode(object):
         self.code = []
         self.level = level
         self.tab = tab
+        self.markers = {}
     
     def child_node(self):
         return CodeNode(self.level, self.tab)
+    
+    def marker(self, name):
+        self.markers[name] = (len(self.code), self.level)
+    
+    def insert(self, name, string):
+        index, level = self.markers[name]
+        self.code.insert(index, self.tab * level + string+'\n')
+        return self
         
     def add(self, string):
         if string is None:
@@ -52,10 +61,10 @@ class TestGenerator(object):
         self.store = store
     
     def add_imports(self, node):
+        node.add('# -*- coding: utf-8 -*-')
         node.add('from django.test import TestCase')
         node.add('from django.core.urlresolvers import reverse')
-        node.add('from django.conf import settings')
-        node.add('from os import path')
+        node.marker('import')
         return node        
     
     def add_fixtures(self, node):
@@ -66,8 +75,8 @@ class TestGenerator(object):
     def dict_values(self, values):
         
         def get_value(val):
-            if len(str(val).splitlines()) > 1:
-                return '"""%s"""' % val
+            if len(unicode(val).splitlines()) > 1:
+                return 'u"""%s"""' % val
             if isinstance(val, FileProxy):
                 return 'open(path.join(settings.MEDIA_ROOT, "%s"), "rb")' % val.path
             if isinstance(val, list):
@@ -77,7 +86,7 @@ class TestGenerator(object):
                     return get_value(val[0])
                 else:
                     return ''
-            return '"%s"' % str(val)                
+            return 'u"%s"' % unicode(val)                
         
         values_length = len(values)
         for i, item in enumerate(values):
@@ -100,6 +109,10 @@ class TestGenerator(object):
         return node.add(auth_node).dedent()   
     
     def add_request(self, request, node):
+        if request.files and not hasattr(self, '_import_for_files'):
+            setattr(self, '_import_for_files', True)
+            node.insert('import', 'from django.conf import settings')
+            node.insert('import', 'from os import path')
         if request.is_data() and not request.is_data_short():
             node.add('data = {').indent()
             for item in self.dict_values(request.data):
@@ -109,7 +122,7 @@ class TestGenerator(object):
             url = request.url_reverse
         else:
             url = 'url'
-            node.add('url = %s' % (request.url_reverse, request.get_param()))
+            node.add('url = %s%s' % (request.url_reverse, request.get_param()))
         if request.is_data():
             if request.is_data_short():
                 data = ', %s' % request.short_data
@@ -275,7 +288,7 @@ class RequestRecord(object):
             return True
     
     def is_data_short(self):
-        if len(self.data) <= 1:
+        if len(self.data) <= 1 and not self.files:
             for value in self.data:
                 if self.is_multiline(value):
                     return False

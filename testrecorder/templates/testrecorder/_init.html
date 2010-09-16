@@ -1,37 +1,37 @@
 		<div id="djInitWindow">
-			<h3 style="color: #fff">Fill to start</h3>
-			<table>
-				<tr>
-					<td style="color: #fff">Class name:</td>
-					<td><input type="text" id="djInitClassNameInput"/></td>
-				</tr>
-			    <tr>
-			    	<td style="color: #fff">Function name:</td>
-					<td><input type="text" id="djInitFunctionNameInput" value="test_"/></td>
-				</tr>
-			</table>
-			<button id="djInitButton">Start</button>
-		</div>
-		<script type="text/javascript">
-			jQuery(function($j) {
-				$j('#djInitButton').click(function(){
-					var class_name = $j('#djInitClassNameInput').val();
-					var func_name = $j('#djInitFunctionNameInput').val();
-					if (class_name && func_name){
-						$j.post(djRecToolbar.BASE_URL+'/init/', {
-							'class_name': class_name,
-							'func_name': func_name
-						}, function(data){
-							$j('a.djDebugTestcaseNamePanel span').html(class_name);
-							$j('a.djDebugFunctionNamePanel span').html(func_name);
-							$j('#djInitWindow').remove();
-							$j('a.jsStartRecord').hide();
-							$j('a.jsStopRecord').show();
+            <h3 style="color: #fff">Fill to start</h3>
+            <table>
+                <tr>
+                    <td style="color: #fff">Class name:</td>
+                    <td><input type="text" id="djInitClassNameInput"/></td>
+                </tr>
+                <tr>
+                    <td style="color: #fff">Function name:</td>
+                    <td><input type="text" id="djInitFunctionNameInput" value="test_"/></td>
+                </tr>
+            </table>
+            <button id="djInitButton">Start</button>
+        </div>
+        <script type="text/javascript">
+            jQuery(function($j) {
+                $j('#djInitButton').click(function(){
+                    var class_name = $j('#djInitClassNameInput').val();
+                    var func_name = $j('#djInitFunctionNameInput').val();
+                    if (class_name && func_name){
+                        $j.post(djRecToolbar.BASE_URL+'/init/', {
+                            'class_name': class_name,
+                            'func_name': func_name
+                        }, function(data){
+                            $j('a.djDebugTestcaseNamePanel span').html(class_name);
+                            $j('a.djDebugFunctionNamePanel span').html(func_name);
+                            $j('#djInitWindow').remove();
+                            $j('a.jsStartRecord').hide();
+                            $j('a.jsStopRecord').show();
                             $j.djDebug.update_requests();
-						}, 'json')
-					}else{//if
-						$j('#djInitWindow h3').html('Fill all fields!');
-					}//else
-				});		
-			});
-		</script>
+                        }, 'json')
+                    }else{//if
+                        $j('#djInitWindow h3').html('Fill all fields!');
+                    }//else
+                });		
+            });
+        </script>

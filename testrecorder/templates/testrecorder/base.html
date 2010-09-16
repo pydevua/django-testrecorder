@@ -13,7 +13,7 @@
 		var jquery_edit_url = '{{ BASE_URL }}/m/jquery.jeditable.mini.js';
 		document.write(unescape('%3Cscript src="' + jquery_edit_url + '" type="text/javascript"%3E%3C/script%3E'));
 	}
-    var djRecToolbar = {};
+	var djRecToolbar = {};
 	djRecToolbar.BASE_URL = '{{ BASE_URL }}';
 </script>
 <script type="text/javascript" src="{{ BASE_URL }}/m/toolbar.js"></script>
@@ -35,7 +35,7 @@
 					{% if panel.has_content %}
 						<a href="{{ panel.url|default:"#" }}" title="{{ panel.title }}" class="{{ panel.dom_id }}">
 					{% else %}
-					    <div class="contentless">
+						<div class="contentless">
 					{% endif %}
 					{{ panel.nav_title }}
 					{% with panel.nav_subtitle as subtitle %}
@@ -44,7 +44,7 @@
 					{% if panel.has_content %}
 						</a>
 					{% else %}
-					    </div>
+						</div>
 					{% endif %}
 				</li>
 			{% endfor %}
@@ -64,9 +64,9 @@
 					<h3>{{ panel.title|safe }}</h3>
 				</div>
 				<div class="djDebugPanelContent">
-				    <div class="scroll">
-				        {{ panel.content|safe }}
-				    </div>
+					<div class="scroll">
+						{{ panel.content|safe }}
+					</div>
 				</div>
 			</div>
 		{% endif %}

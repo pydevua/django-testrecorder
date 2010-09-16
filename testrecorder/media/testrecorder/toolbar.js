@@ -67,6 +67,7 @@ jQuery(function($j) {
             $j('#djGetCodeToolBarButton').click(function(){
                 $j.djDebug.show_toolbar();
                 $j('#djDebugPanelList li a.djDebugCodePanel').click();
+                return false;
             });
             
             $j('.djAddAssertion').click(function(){
