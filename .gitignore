@@ -1,2 +1,3 @@
 *.pyc
 *.*~
+tests/project/database.sqlite
