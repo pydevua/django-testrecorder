@@ -18,3 +18,6 @@ IGNORE = getattr(settings, 'RECORDER_IGNORE', [])
 
 #path to save request.FILES related to settings.MEDIA_ROOT
 FILES_PATH = getattr(settings, 'RECORDER_FILES_PATH', 'test/')
+
+#Show auto-start initial window or not?
+INIT_ON_START = getattr(settings, 'RECORDER_INIT_ON_START', True)

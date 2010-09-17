@@ -1,1 +1,99 @@
-Hello, Dude!
+<style>
+#djDebug .app-container {
+    margin: 5px;
+    width: 600px;
+}
+
+#djDebug .app-container h1 {
+    background: #b5d8dd;
+    padding: 4px;
+    cursor: pointer;
+}
+#djDebug .app-container .model-container {
+    margin: 5px 0 5px 15px;
+}
+
+#djDebug .app-container .model-container h2 {
+    padding: 4px;
+    background: #b3e3ae;
+    cursor: pointer;
+}
+#djDebug .app-container h1 .ui-button, 
+#djDebug .app-container .model-container h2 .ui-button {
+    float: right;
+    margin-top: -5px;
+}    
+</style>
+{% for item in model_dict %}
+<div class="app-container ui-widget ui-widget-content ui-corner-all">
+    <h1 class="ui-corner-all ui-widget-header">
+        {{ item.app }}
+        <button class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Select All</span>
+        </button>
+        <button class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Unselect All</span>
+        </button>        
+        <button class="open-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Open All</span>
+        </button>
+        <button class="close-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Close All</span>
+        </button>                
+    </h1>
+    <div class="app-content ui-helper-hidden">
+    {% for model in item.models %}
+    <div class="model-container  ui-widget ui-widget-content ui-corner-all">
+        <h2 class="ui-corner-all ui-widget-header">
+            {{ model.name }}
+            <button class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-button-text">Select All</span>
+            </button>
+            <button class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-button-text">Unselect All</span>
+            </button>              
+        </h2>
+        <div class="content ui-helper-hidden">
+        {% for obj in model.model.objects.all %}
+        <div class="object-container">
+            <input type="checkbox" name="object" class="object-checkbox"/>
+            {{ obj }}
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% endfor %}
+<script>
+    jQuery(function($){
+        $('#djDebug .app-container h1').click(function(){
+            $('.app-content', $(this).parent()).toggle();
+        });
+        
+        $('#djDebug .model-container h2').click(function(){
+            $('.content', $(this).parent()).toggle();
+        });
+        
+        $('#djDebug .open-all').click(function(){
+            $('.app-content, .content', $(this).parent().parent()).show();
+            return false;
+        });
+        
+        $('#djDebug .close-all').click(function(){
+            $('.app-content, .content', $(this).parent().parent()).hide();
+            return false;
+        });
+        
+        $('#djDebug .select-all').click(function(){
+            $('.object-checkbox', $(this).parent().parent()).attr('checked', true);
+            return false;
+        });  
+        
+        $('#djDebug .unselect-all').click(function(){
+            $('.object-checkbox', $(this).parent().parent()).attr('checked', false);
+            return false;
+        });                 
+    });
+</script>

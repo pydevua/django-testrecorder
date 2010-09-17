@@ -7,13 +7,13 @@ from testrecorder.panels.record import RecordPanel
 from testrecorder.panels.code import CodePanel
 from testrecorder.panels.assertion import AssertionPanel
 from testrecorder.panels.fixture import FixturePanel
-from testrecorder.settings import IGNORE, AUTH
+from testrecorder.settings import IGNORE, AUTH, INIT_ON_START
 import re
 
 class Toolbar(object):
     
     def __init__(self):
-        self.init = True
+        self.init = INIT_ON_START
         self.start_record = False
         self.fixtures = []        
         self.cls_name_panel = ClassNamePanel()
