@@ -139,11 +139,12 @@ class TestGenerator(object):
         return node.blank()
     
     def add_func(self, func, node):
-        node.blank().add('def %s(self):' % func.name).indent()
+        node.add('def %s(self):' % func.name).indent()
         if self.auth:
             node.add('self.client.login(**self.auth)').blank()
         for item in func.records:
             self.add_request(item, node)
+        node.dedent()
     
     def render(self):
         node = CodeNode()
@@ -151,6 +152,7 @@ class TestGenerator(object):
         node.blank().add('class %s(TestCase):' % self.class_name).indent()
         self.add_fixtures(node)
         self.add_setup(node)
+        node.blank()
         for item in self.store:
             self.add_func(item, node)
         return node.render()
@@ -275,7 +277,7 @@ class RequestRecord(object):
             if kwargs:
                 output.append(', kwargs=%s' % self.to_short_dict(kwargs))
             if args:
-                output.append(', args=%s' % str(args))
+                output.append(', args=%s' % str(list(args)))
             return 'reverse(%s)' % ''.join(output)
         except Http404:
             return '"%s"' % self.url
