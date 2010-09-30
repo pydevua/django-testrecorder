@@ -1,3 +1,10 @@
+<div class="ui-state-highlight ui-corner-all">
+    <span class="ui-icon ui-icon-info"></span>
+    Select assertion, fix if you need. Assertion will be added to selected or current request.<br/>
+    <a href="http://docs.djangoproject.com/en/dev/topics/testing/#assertions">
+        Learn more about Django's specific asserions
+    </a>
+</div>
 <input type='text' id='assertion-input' value='' size='100'/>
 <button id='add-assertion-button'>Add</button>
 {% include 'testrecorder/panels/_assertion_content.html'%}
@@ -18,6 +25,7 @@
 						function(data, textStatus){
 							alert(textStatus);
 							input.val('');
+                            input.data('url', '');
 						}, 'json'
 				);
 			}else{

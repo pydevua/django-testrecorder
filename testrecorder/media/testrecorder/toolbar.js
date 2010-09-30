@@ -70,7 +70,7 @@ jQuery(function($j) {
                 return false;
             });
             
-            $j('.djAddAssertion').click(function(){
+            $j('.djAddAssertion').live('click', function(){
                 $j('#assertion-input').data('url', $j(this).attr('href'));
                 $j('.djDebugAssertionPanel').click();
                 return false;
@@ -84,7 +84,7 @@ jQuery(function($j) {
                 return false;				
             }
             
-            $j('a.djDeleteRequest').click(_delete_record_handler);
+            $j('a.djDeleteRequest').live('click', _delete_record_handler);
             
             $j('a.jsStartRecord').click(function(e) {
                 $j.get(this.href);
