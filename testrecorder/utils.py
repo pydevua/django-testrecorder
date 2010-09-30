@@ -68,9 +68,21 @@ class TestGenerator(object):
         return node        
     
     def add_fixtures(self, node):
-        if self.fixtures:
-            node.add('fixtures = ["%s"]' % '", "'.join(self.fixtures)).blank()
-        return node
+        if not self.fixtures:
+            return node 
+        
+        fixtures_str = '", "'.join(self.fixtures)
+        
+        if len(fixtures_str) < 80:
+            node.add('fixtures = ["%s"]' % fixtures_str)
+        else:
+            node.add('fixtures = [')
+            node.indent()
+            for item in self.fixtures[:-1]:
+                node.add('"%s",' % item)   
+            node.add('"%s"' % self.fixtures[-1])                 
+            node.dedent()
+            node.add(']')
     
     def dict_values(self, values):
         
