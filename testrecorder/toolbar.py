@@ -41,6 +41,9 @@ class Toolbar(object):
     def add_assertion(self, value, func_index=None, index=None):
         return self.record_panel.add_assertion(value, func_index, index)
     
+    def remove_assertion(self, func_index, index):
+        return self.record_panel.remove_assertion(func_index, index)
+    
     def delete_func(self, index):
         return self.record_panel.delete_func(index)     
     

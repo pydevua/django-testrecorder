@@ -1,16 +1,19 @@
 <div class="ui-state-highlight ui-corner-all">
     <span class="ui-icon ui-icon-info"></span>
     Select assertion, fix if you need. Assertion will be added to selected or current request.<br/>
-    <a href="http://docs.djangoproject.com/en/dev/topics/testing/#assertions">
+    Really you can add anything to test.<br/>
+    <a target="blank" href="http://docs.djangoproject.com/en/dev/topics/testing/#assertions">
         Learn more about Django's specific asserions
     </a>
 </div>
 <input type='text' id='assertion-input' value='' size='100'/>
 <button id='add-assertion-button'>Add</button>
-{% include 'testrecorder/panels/_assertion_content.html'%}
+<div>
+    {% include 'testrecorder/panels/_assertion_content.html'%}
+</div>
 <script type='text/javascript'>
 	jQuery(function($j){
-		$j('#djDebugAssertionPanel div.scroll div a').click(function(){
+		$j('#djDebugAssertionPanel div.scroll div div a').click(function(){
 			$j('#assertion-input').val($j(this).text().replace(/TestCase/, 'self'));
 			return false;
 		});

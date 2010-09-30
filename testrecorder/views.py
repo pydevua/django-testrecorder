@@ -53,12 +53,12 @@ def delete(request):
     index = request.GET.get('index', None)
     func_index = request.GET.get('func_index', None)
     index and func_index and toolbar.delete(int(func_index), int(index))
-    return HttpResponse(toolbar.record_panel.content())
+    return HttpResponse('{}')
 
 def func_delete(request):
     index = request.GET.get('index', None)
     index and toolbar.delete_func(int(index))
-    return HttpResponse(toolbar.record_panel.content())
+    return HttpResponse('{}')
 
 def code(request):
     return HttpResponse(toolbar.get_code())
@@ -73,6 +73,10 @@ def assertion(request):
         func_index = int(func_index)        
     value and toolbar.add_assertion(value, func_index, index)    
     return HttpResponse('{}')    
+
+def remove_assertions(request, index, func_index):
+    toolbar.remove_assertion(int(func_index), int(index))
+    return HttpResponse('{}')
 
 def load_requests(request):
     return HttpResponse(toolbar.record_panel.content())

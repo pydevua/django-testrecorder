@@ -9,6 +9,7 @@
 			<th>Redirect url</th>
 			<th>&nbsp</th>
 			<th>&nbsp</th>
+            <th>&nbsp</th>
 		</tr>
 	</thead>
 	{% for row in records %}
@@ -32,8 +33,13 @@
 				</td>
 				<td>{{ item.code }}</td>
 				<td>{{ item.redirect_url }}</td>
-				<td><a class="djDeleteRequest" href="{{ BASE_URL }}/delete/?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">delete</a></td>
-				<td><a class="djAddAssertion" href="{{ BASE_URL }}/assertion/?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">add assertion</a></td>
+				<td><a class="djDeleteRequest" href="{% url test-recorder:delete %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">delete</a></td>
+				<td><a class="djAddAssertion" href="{% url test-recorder:add_assertion %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">add assertion</a></td>
+                <td>
+                    {% if item.assertions %}
+                        <a href="{% url test-recorder:remove_assertions forloop.counter0 forloop.parentloop.counter0 %}" class="djDeleteAssertions" alt="remove assertions" title="remove assertions">remove a-s</a>
+                    {% endif %}
+                </td>
 			</tr>
 		{% endfor %}
 	{% endfor %}	

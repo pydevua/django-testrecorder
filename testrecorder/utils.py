@@ -189,6 +189,9 @@ class ActionStorage(object):
     def add_request(self, request, response):
         self.data[-1].add(RequestRecord(request, response))        
     
+    def remove_assertion(self, func_index, index):
+        self.data[func_index].records[index].remove_assertion()
+        
     def add_assertion(self, value, func_index=None, index=None):
         if func_index is None:
             func_index = len(self.data) - 1
@@ -253,6 +256,9 @@ class RequestRecord(object):
         self.redirect_url = response.get('Location', '') 
         if self.redirect_url and not self.redirect_url.startswith('/'):
             self.redirect_url = '/'+self.redirect_url
+        self.assertions = []
+    
+    def remove_assertion(self):
         self.assertions = []
     
     def add_assertion(self, value):

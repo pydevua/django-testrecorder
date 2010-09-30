@@ -76,15 +76,19 @@ jQuery(function($j) {
                 return false;
             });
             
-            function _delete_record_handler(){
+            $j('a.djDeleteRequest').live('click', function(){
                 $j.get(this.href, {}, function(data){
-                    $j('#djDebugRecordRequestsPanel div.scroll').html(data);
-                    $j('a.djDeleteRequest').click(_delete_record_handler);
+                    $j.djDebug.update_requests();
                 }, 'text');
-                return false;				
-            }
+                return false;                   
+            });
             
-            $j('a.djDeleteRequest').live('click', _delete_record_handler);
+            $j('a.djDeleteAssertions').live('click', function(){
+                $j.get(this.href, {}, function(){
+                    $j.djDebug.update_requests();
+                })
+                return false;
+            });
             
             $j('a.jsStartRecord').click(function(e) {
                 $j.get(this.href);
