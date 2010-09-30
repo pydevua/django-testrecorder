@@ -1,1 +1,7 @@
 {% extends 'main/base.html' %}
+
+{% block body %}
+    {% for obj in objects %}
+        <h3><a href="{{ obj.get_absolute_url }}">{{ obj }}</a></h3>
+    {% endfor %}
+{% endblock %}

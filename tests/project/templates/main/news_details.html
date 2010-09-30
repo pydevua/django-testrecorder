@@ -1,0 +1,8 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+    <h2>{{ obj }}</h2>
+    <div>
+        {{ obj.content|linebreaks }}
+    </div>
+{% endblock %}

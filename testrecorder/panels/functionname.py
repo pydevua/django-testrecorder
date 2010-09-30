@@ -2,12 +2,13 @@ from testrecorder.panels import Panel
 from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 from django.utils.safestring import mark_safe
+from testrecorder.settings import DEFAULT_FUNC_NAME 
 
 class FunctionNamePanel(Panel):
     
     name = 'FunctionName'
     has_content = True
-    function_name = 'test_func'
+    function_name = DEFAULT_FUNC_NAME 
     
     def nav_title(self):
         mark_safe

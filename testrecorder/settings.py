@@ -21,3 +21,12 @@ FILES_PATH = getattr(settings, 'RECORDER_FILES_PATH', 'test/')
 
 #Show auto-start initial window or not?
 INIT_ON_START = getattr(settings, 'RECORDER_INIT_ON_START', True)
+
+#Set True for auto-start recording
+AUTO_START = getattr(settings, 'RECORDER_AUTO_START', False)
+
+#Default name for TestCase class
+DEFAULT_CLASS_NAME = getattr(settings, 'RECORDER_DEFAULT_CLASS_NAME', 'SomeTestCase')
+
+#Default name for TestCase method name. Should start with "test", if you don't know.
+DEFAULT_FUNC_NAME = getattr(settings, 'RECORDER_DEFAULT_FUNC_NAME', 'test_func')

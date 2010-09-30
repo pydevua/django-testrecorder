@@ -274,6 +274,8 @@ class RequestRecord(object):
             output = ['"%s"' % name]
             if kwargs:
                 output.append(', kwargs=%s' % self.to_short_dict(kwargs))
+            if args:
+                output.append(', args=%s' % str(args))
             return 'reverse(%s)' % ''.join(output)
         except Http404:
             return '"%s"' % self.url
