@@ -107,6 +107,17 @@ INSTALLED_APPS = (
     'testrecorder'
 )
 
+############
+# RECORDER #
+############
+
+RECORDER_FIXTURES = [
+    'test1.json', 
+    'test2.json', 
+    'test3.json',
+    'test4.json'
+]
+
 try:
     from settings_local import *
 except ImportError:

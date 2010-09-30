@@ -6,7 +6,7 @@ Tool for generating tests for Django projects.
 
 #Using:#
 
-Run ./manage.py recorderserver [fixture.json] and visit http://127.0.0.1:8000.
+Run ./manage.py recorderserver <fixture fixture ...> and visit http://127.0.0.1:8000.
 This command support same options like "testserver" command.
 
 #Examples of settings:#
