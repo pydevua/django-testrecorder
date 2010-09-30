@@ -6,6 +6,10 @@ def rel(*x):
 
 sys.path.insert(0, rel('..', '..'))
 
+FIXTURE_DIRS = (
+    rel('fixtures'),
+)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
