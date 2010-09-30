@@ -1,3 +1,4 @@
 *.pyc
 *.*~
-tests/project/database.sqlite
+tests/project/database*.sqlite
+tests/project/settings_local.py
