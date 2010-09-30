@@ -2,7 +2,7 @@ jQuery.noConflict();
 jQuery(function($j) {
     var COOKIE_NAME = 'dj_debug_panel';
     $j.djDebug = function(data, klass) {
-        $j.djDebug.init();
+        ( ! djRecToolbar.INIT ) && $j.djDebug.init();
     }
     $j.extend($j.djDebug, {
         init: function() {

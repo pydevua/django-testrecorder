@@ -3,21 +3,24 @@
             <table>
                 <tr>
                     <td style="color: #fff">Class name:</td>
-                    <td><input type="text" id="djInitClassNameInput"/></td>
+                    <td><input type="text" id="djInitClassNameInput" value="{{ settings.DEFAULT_CLASS_NAME }}"/></td>
                 </tr>
                 <tr>
                     <td style="color: #fff">Function name:</td>
-                    <td><input type="text" id="djInitFunctionNameInput" value="test_"/></td>
+                    <td><input type="text" id="djInitFunctionNameInput" value="{{ settings.DEFAULT_FUNC_NAME }}"/></td>
                 </tr>
             </table>
             <button id="djInitButton">Start</button>
         </div>
+        <div class="ui-widget-overlay"></div>
         <script type="text/javascript">
             jQuery(function($j) {
                 $j('#djInitButton').click(function(){
                     var class_name = $j('#djInitClassNameInput').val();
                     var func_name = $j('#djInitFunctionNameInput').val();
                     if (class_name && func_name){
+                        $j('#djDebug .ui-widget-overlay').remove();
+                        $j.djDebug.init();
                         $j.post(djRecToolbar.BASE_URL+'/init/', {
                             'class_name': class_name,
                             'func_name': func_name

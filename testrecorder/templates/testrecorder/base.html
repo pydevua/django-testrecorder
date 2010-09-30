@@ -15,6 +15,7 @@
 	}
 	var djRecToolbar = {};
 	djRecToolbar.BASE_URL = '{{ BASE_URL }}';
+    djRecToolbar.INIT = '{{ init }}' == 'True';
 </script>
 <script type="text/javascript" src="{{ BASE_URL }}/m/toolbar.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -73,7 +74,7 @@
 		{% endif %}
 	{% endfor %}
 	<div id="djDebugWindow" class="panelContent"></div>
-	{% if init %}
-		{% include 'testrecorder/_init.html' %}
-	{% endif %}
+    {% if init %}
+        {% include 'testrecorder/_init.html' %}
+    {% endif %}      
 </div>

@@ -7,14 +7,14 @@ from testrecorder.panels.record import RecordPanel
 from testrecorder.panels.code import CodePanel
 from testrecorder.panels.assertion import AssertionPanel
 from testrecorder.panels.fixture import FixturePanel
-from testrecorder.settings import IGNORE, AUTH, INIT_ON_START, AUTO_START
+from testrecorder import settings
 import re
 
 class Toolbar(object):
     
     def __init__(self):
-        self.init = INIT_ON_START
-        self.start_record = AUTO_START
+        self.init = settings.INIT_ON_START
+        self.start_record = settings.AUTO_START
         self.fixtures = []        
         self.cls_name_panel = ClassNamePanel()
         self.func_name_panel = FunctionNamePanel()
@@ -26,7 +26,7 @@ class Toolbar(object):
         
     def _init_inore_patterns(self):
         self.ignore = []
-        patterns = IGNORE
+        patterns = settings.IGNORE
         for item in patterns:
             self.ignore.append(re.compile(item))
     
@@ -98,10 +98,11 @@ class Toolbar(object):
             'panels': self.panels,
             'start': self.start_record,
             'init': self.init,
+            'settings': settings,
             'BASE_URL': '/%s' %  _PREFIX,
         })
     
     def get_code(self):
-        return TestGenerator(self.class_name, self.fixtures, AUTH, self.record_panel.store).render()
+        return TestGenerator(self.class_name, self.fixtures, settings.AUTH, self.record_panel.store).render()
         
 toolbar = Toolbar()
