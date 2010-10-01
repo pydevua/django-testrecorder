@@ -3,11 +3,21 @@ from django.template.loader import render_to_string
 from testrecorder.urls import _PREFIX
 from django.db import models
 from django.utils.text import capfirst
+from testrecorder import settings
 
 class FixturePanel(Panel):
     
     name = 'Fixtures'
     has_content = True
+    
+    def __init__(self):
+        self.ignore_apps = []
+        self.ignore_models = []
+        for item in settings.EXCLUDE_MODELS:
+            if '.' in item:
+                self.ignore_models.append(item)
+            else:
+                self.ignore_apps.append(item)
     
     def nav_title(self):
         return 'Fixtures'
@@ -26,12 +36,19 @@ class FixturePanel(Panel):
                 'models': []   
             } 
             for model in models.get_models(app, include_auto_created=True):
+                opt = model._meta
+                
+                if opt.app_label in self.ignore_apps:
+                    continue
+                if '%s.%s' % (opt.app_label, opt.object_name) in self.ignore_models:
+                    continue
                 if not model.objects.exists():
                     continue
                 
                 d = {
-                    'name': capfirst(model._meta.verbose_name_plural),
-                    'model': model
+                    'verbose_name': capfirst(opt.verbose_name_plural),
+                    'model': model,
+                    'model_name': '%s.%s' % (opt.app_label, opt.object_name)
                 }
                 obj['models'].append(d)
             

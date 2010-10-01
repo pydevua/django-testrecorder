@@ -3,6 +3,9 @@ import django.views.static
 from django.http import HttpResponse
 from testrecorder.middleware import toolbar
 from django.core.management import call_command
+from django.db.models.loading import get_model
+from django.core import serializers
+from testrecorder import settings
 
 def media(request, path):
     parent = os.path.abspath(os.path.dirname(__file__))
@@ -80,4 +83,17 @@ def remove_assertions(request, index, func_index):
 
 def load_requests(request):
     return HttpResponse(toolbar.record_panel.content())
+
+def fixtures(request):
+    format = settings.SERIALIZER_FORMAT
+    indent = settings.SERIALIZER_INDENT
+    use_natural_keys = settings.SERIALIZER_USE_NATURAL_KEYS
     
+    objects = []
+    for name in request.POST:
+        model = get_model(*name.split('.'))
+        objects.extend(model._default_manager.filter(pk__in=request.POST.getlist(name)))
+        
+    data = serializers.serialize(format, objects, indent=indent,
+                          use_natural_keys=use_natural_keys)
+    return HttpResponse(data)    

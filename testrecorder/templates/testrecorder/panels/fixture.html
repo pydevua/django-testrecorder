@@ -1,7 +1,24 @@
 <style>
-#djDebug .app-container {
+#djDebugFixturesPanel .app-container, 
+#djDebugFixturesPanel .tool-panel,
+#djDebugFixturesPanel .serialized-data
+ {
     margin: 5px;
     width: 600px;
+}
+
+#djDebugFixturesPanel .serialized-data {
+    padding: 5px;
+}
+
+#djDebugFixturesPanel .serialized-data h2 {
+    padding: 4px;
+    cursor: pointer;
+}
+
+#djDebugFixturesPanel .serialized-data textarea {
+    width: 592px; 
+    height: 400px;
 }
 
 #djDebug .app-container h1 {
@@ -24,6 +41,14 @@
     margin-top: -5px;
 }    
 </style>
+<div class="tool-panel ui-widget ui-widget-content ui-corner-all" style="padding: 4px;">
+    <button style="padding: 5px" class="load-fixtures-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" >Load</button>
+</div>
+<div class="serialized-data ui-widget ui-widget-content ui-corner-all">
+    <h2 class="ui-corner-all ui-widget-header">Fixtures data</h2>
+    <textarea style="display: none"></textarea>
+</div>
+<form>
 {% for item in model_dict %}
 <div class="app-container ui-widget ui-widget-content ui-corner-all">
     <h1 class="ui-corner-all ui-widget-header">
@@ -45,7 +70,7 @@
     {% for model in item.models %}
     <div class="model-container  ui-widget ui-widget-content ui-corner-all">
         <h2 class="ui-corner-all ui-widget-header">
-            {{ model.name }}
+            {{ model.verbose_name }}
             <button class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
                 <span class="ui-button-text">Select All</span>
             </button>
@@ -56,7 +81,7 @@
         <div class="content ui-helper-hidden">
         {% for obj in model.model.objects.all %}
         <div class="object-container">
-            <input type="checkbox" name="object" class="object-checkbox"/>
+            <input type="checkbox" value="{{ obj.pk }}" name="{{ model.model_name }}" class="object-checkbox" />
             {{ obj }}
         </div>
         {% endfor %}
@@ -66,8 +91,13 @@
     </div>
 </div>
 {% endfor %}
+</form>
 <script>
     jQuery(function($){
+        var URLS = {
+            load_data: '{% url test-recorder:fixtures %}'
+        }
+        
         $('#djDebug .app-container h1').click(function(){
             $('.app-content', $(this).parent()).toggle();
         });
@@ -94,6 +124,17 @@
         $('#djDebug .unselect-all').click(function(){
             $('.object-checkbox', $(this).parent().parent()).attr('checked', false);
             return false;
-        });                 
+        });
+        
+        $('#djDebugFixturesPanel .serialized-data h2').click(function(){
+            $('#djDebugFixturesPanel .serialized-data textarea').toggle();
+        });
+        
+        $('#djDebug #djDebugFixturesPanel .load-fixtures-button').click(function(){
+            var params = $('#djDebugFixturesPanel form').serialize()
+            $.post(URLS.load_data, params, function(response){
+                $('#djDebugFixturesPanel .serialized-data textarea').show().val(response);
+            }, 'text');
+        });
     });
 </script>

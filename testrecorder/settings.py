@@ -30,3 +30,19 @@ DEFAULT_CLASS_NAME = getattr(settings, 'RECORDER_DEFAULT_CLASS_NAME', 'SomeTestC
 
 #Default name for TestCase method name. Should start with "test", if you don't know.
 DEFAULT_FUNC_NAME = getattr(settings, 'RECORDER_DEFAULT_FUNC_NAME', 'test_func')
+
+#Filter for model in Fixtures panel
+EXCLUDE_MODELS = getattr(settings, 'RECORDER_EXCLUDE_MODELS', (
+    'auth.Permission',
+    'sessions',
+    'admin',
+    'contenttypes'
+))
+
+#See: http://docs.djangoproject.com/en/dev/topics/serialization/#serialization-formats
+SERIALIZER_FORMAT = getattr(settings, 'RECORDER_SERIALIZER_FORMAT', 'json')
+
+SERIALIZER_INDENT = getattr(settings, 'RECORDER_SERIALIZER_INDENT', 4)
+
+#About natural keys: http://docs.djangoproject.com/en/dev/topics/serialization/#natural-keys
+SERIALIZER_USE_NATURAL_KEYS = getattr(settings, 'RECORDER_SERIALIZER_USE_NATURAL_KEYS', False)
