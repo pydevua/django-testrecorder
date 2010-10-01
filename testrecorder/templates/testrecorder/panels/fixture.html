@@ -1,69 +1,44 @@
-<style>
-#djDebugFixturesPanel .app-container, 
-#djDebugFixturesPanel .tool-panel,
-#djDebugFixturesPanel .serialized-data
- {
-    margin: 5px;
-    width: 600px;
-}
-
-#djDebugFixturesPanel .serialized-data {
-    padding: 5px;
-}
-
-#djDebugFixturesPanel .serialized-data h2 {
-    padding: 4px;
-    cursor: pointer;
-}
-
-#djDebugFixturesPanel .serialized-data textarea {
-    width: 592px; 
-    height: 400px;
-}
-
-#djDebug .app-container h1 {
-    background: #b5d8dd;
-    padding: 4px;
-    cursor: pointer;
-}
-#djDebug .app-container .model-container {
-    margin: 5px 0 5px 15px;
-}
-
-#djDebug .app-container .model-container h2 {
-    padding: 4px;
-    background: #b3e3ae;
-    cursor: pointer;
-}
-#djDebug .app-container h1 .ui-button, 
-#djDebug .app-container .model-container h2 .ui-button {
-    float: right;
-    margin-top: -5px;
-}    
-</style>
-<div class="tool-panel ui-widget ui-widget-content ui-corner-all" style="padding: 4px;">
-    <button style="padding: 5px" class="load-fixtures-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" >Load</button>
+<div class="ui-state-highlight ui-corner-all fixtures-help-container">
+    You can easy create fixtures from database. Add objects you need for testing,
+    select them and click "Load". New object's name are bold if. Objects 
+    without bold name will be excluded, because they where loaded from fixtures,
+    so you have them already in you fixtures. Select "Include existed" to load 
+    all objects.
 </div>
+
+<form>
+<div class="tool-panel ui-widget ui-widget-content ui-corner-all" style="padding: 4px;">
+    <button class="load-fixtures-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" >
+        <span class="ui-button-text">Load</span>
+    </button>
+    <label class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+        <span class="ui-button-text">
+            <input type="checkbox" name="include-existed" value="true" />
+            Include existed
+        </span>
+    </label>
+</div>
+
 <div class="serialized-data ui-widget ui-widget-content ui-corner-all">
     <h2 class="ui-corner-all ui-widget-header">Fixtures data</h2>
     <textarea style="display: none"></textarea>
 </div>
-<form>
+
 {% for item in model_dict %}
 <div class="app-container ui-widget ui-widget-content ui-corner-all">
     <h1 class="ui-corner-all ui-widget-header">
         {{ item.app }}
-        <button class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Select All</span>
+        <button title="Select all" class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-icon ui-icon-check"></span>
         </button>
-        <button class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Unselect All</span>
+        <button title="Unselect all" class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-icon ui-icon-closethick"></span>
         </button>        
-        <button class="open-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Open All</span>
+        <button title="Open all" class="open-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+             <span class="ui-icon ui-icon-circle-triangle-s"></span>
         </button>
-        <button class="close-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Close All</span>
+        <button title="Close all" class="close-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-icon ui-icon-circle-triangle-n"></span>
         </button>                
     </h1>
     <div class="app-content ui-helper-hidden">
@@ -71,19 +46,19 @@
     <div class="model-container  ui-widget ui-widget-content ui-corner-all">
         <h2 class="ui-corner-all ui-widget-header">
             {{ model.verbose_name }}
-            <button class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-                <span class="ui-button-text">Select All</span>
+            <button title="Select all" class="select-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-icon ui-icon-check"></span>
             </button>
-            <button class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
-                <span class="ui-button-text">Unselect All</span>
+            <button title="Unselect all" class="unselect-all ui-button ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-icon ui-icon-closethick"></span>
             </button>              
         </h2>
         <div class="content ui-helper-hidden">
         {% for obj in model.model.objects.all %}
-        <div class="object-container">
-            <input type="checkbox" value="{{ obj.pk }}" name="{{ model.model_name }}" class="object-checkbox" />
-            {{ obj }}
-        </div>
+        <label class="object-container {% if obj.pk in model.existed_objects %}existed{% endif %}">
+                <input type="checkbox" value="{{ obj.pk }}" name="{{ model.model_name }}" class="object-checkbox" />
+                {{ obj }} 
+        </label>
         {% endfor %}
         </div>
     </div>
@@ -92,6 +67,7 @@
 </div>
 {% endfor %}
 </form>
+
 <script>
     jQuery(function($){
         var URLS = {
@@ -130,11 +106,18 @@
             $('#djDebugFixturesPanel .serialized-data textarea').toggle();
         });
         
+        $('#djDebugFixturesPanel .object-container').hover(function(){
+            $(this).addClass('ui-state-hover');
+        }, function(){
+            $(this).removeClass('ui-state-hover');
+        });
+        
         $('#djDebug #djDebugFixturesPanel .load-fixtures-button').click(function(){
             var params = $('#djDebugFixturesPanel form').serialize()
             $.post(URLS.load_data, params, function(response){
                 $('#djDebugFixturesPanel .serialized-data textarea').show().val(response);
             }, 'text');
+            return false;
         });
     });
 </script>

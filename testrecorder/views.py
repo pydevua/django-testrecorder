@@ -88,11 +88,14 @@ def fixtures(request):
     format = settings.SERIALIZER_FORMAT
     indent = settings.SERIALIZER_INDENT
     use_natural_keys = settings.SERIALIZER_USE_NATURAL_KEYS
+    include_existed = request.POST.get('include-existed', False)
+    f_panel = toolbar.fixture_panel
     
     objects = []
     for name in request.POST:
-        model = get_model(*name.split('.'))
-        objects.extend(model._default_manager.filter(pk__in=request.POST.getlist(name)))
+        if '.' in name:
+            ids = request.POST.getlist(name)
+            objects.extend(f_panel.get_objects(name, ids, include_existed))
         
     data = serializers.serialize(format, objects, indent=indent,
                           use_natural_keys=use_natural_keys)

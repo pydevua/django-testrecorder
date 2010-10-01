@@ -493,3 +493,62 @@ span.VarName {
 	color: #008080;
 	font-weight: bolder;
 }
+
+/* Fixutures panel */
+#djDebugFixturesPanel .app-container, 
+#djDebugFixturesPanel .tool-panel,
+#djDebugFixturesPanel .serialized-data,
+#djDebugFixturesPanel .fixtures-help-container
+ {
+    margin: 5px;
+    width: 600px;
+}
+
+#djDebugFixturesPanel .fixtures-help-container {
+    padding: 5px;
+    margin: 5px 0;
+}
+
+#djDebugFixturesPanel .serialized-data {
+    padding: 5px;
+}
+
+#djDebugFixturesPanel .serialized-data h2 {
+    padding: 4px;
+    cursor: pointer;
+}
+
+#djDebugFixturesPanel .serialized-data textarea {
+    width: 592px; 
+    height: 400px;
+}
+
+#djDebug .app-container h1 {
+    background: #b5d8dd;
+    padding: 3px;
+    cursor: pointer;
+}
+#djDebug .app-container .model-container {
+    margin: 5px 0 5px 15px;
+}
+
+#djDebug .app-container .model-container h2 {
+    padding: 3px;
+    background: #b3e3ae;
+    cursor: pointer;
+}
+#djDebug .app-container h1 .ui-button, 
+#djDebug .app-container .model-container h2 .ui-button {
+    float: right;
+}
+
+#djDebug #djDebugFixturesPanel .object-container {
+    font-weight: bold;
+    padding: 2px 0 2px 4px;
+    display: block;
+    cursor: pointer;
+}
+
+#djDebug #djDebugFixturesPanel .object-container.existed {
+    font-weight: normal;
+}
