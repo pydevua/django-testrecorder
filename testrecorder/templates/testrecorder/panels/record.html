@@ -15,7 +15,7 @@
 	{% for row in records %}
 		<tr class="djFunctionRow">
 			<td colspan="6"><b class="djEdit" id="row_{{ forloop.counter0 }}">{{ row.name }}</b></td>
-			<td><a class="djDeleteRequest" href="{{ BASE_URL }}/func_delete/?index={{ forloop.counter0 }}">delete</a></td>
+			<td><a class="djDeleteRequest" href="{% url test-recorder:func_delete %}?index={{ forloop.counter0 }}">delete</a></td>
 		</tr>
 		{% for item in row.records %}
 			<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">

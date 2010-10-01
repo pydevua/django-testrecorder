@@ -22,7 +22,7 @@ class TestRecorderMiddleware(object):
         if self.override_url:
             testrecorder.urls.urlpatterns += self.original_pattern
             self.override_url = False
-            #maybe do it safe-threading for sites with dinamical TOOR_URLCONF
+            #maybe do it safe-threading for sites with dynamic TOOR_URLCONF
             settings.ROOT_URLCONF = 'testrecorder.urls'
         
     def process_view(self, request, view_func, view_args, view_kwargs):
