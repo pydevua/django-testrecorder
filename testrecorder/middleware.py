@@ -45,9 +45,11 @@ class TestRecorderMiddleware(object):
         return True
     
 class AutoLoginMiddleware(object):
-
+    logged = False
+    
     def process_request(self, request):
         if not request.user.is_authenticated() and AUTH \
-            and AUTOLOGIN:
+            and AUTOLOGIN and not self.logged:
+                self.logged = True
                 user = authenticate(**AUTH)
                 user and login(request, user)

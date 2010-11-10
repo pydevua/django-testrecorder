@@ -6,6 +6,11 @@
       {% block head %}{% endblock %}
     </head>
     <body>
+       <div>
+           {% if user.is_authenticated %}
+           {{ user }} | <a href="{% url logout %}?next={{ request.path_info|urlencode }}">Logout</a>
+           {% endif %}
+       </div>
        {% block body %}{% endblock %} 
     </body>
 </html>
