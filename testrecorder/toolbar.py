@@ -21,7 +21,8 @@ class Toolbar(object):
         self.record_panel = RecordPanel()
         self.code_panel = CodePanel()
         self.assertion_panel = AssertionPanel()
-        self.fixture_panel = FixturePanel()
+        if settings.USE_FIXTURE_PANEL:
+            self.fixture_panel = FixturePanel()
         self._init_inore_patterns()
         
     def _init_inore_patterns(self):
@@ -49,14 +50,16 @@ class Toolbar(object):
     
     @property
     def panels(self):
-        return [
+        panels = [
             self.cls_name_panel,
             self.func_name_panel,
             self.assertion_panel,
             self.record_panel,
-            self.code_panel,
-            self.fixture_panel
+            self.code_panel
         ]
+        if settings.USE_FIXTURE_PANEL:
+            panels.append(self.fixture_panel)
+        return panels
     
     def add_function(self, name):
         self.func_name = name

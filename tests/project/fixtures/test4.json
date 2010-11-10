@@ -1,5 +1,50 @@
 [
     {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "admin", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2010-09-30 15:35:46", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$69607$ab78775d0d12c682f55ef73a31e2813a6ede559a", 
+            "email": "admin@mail.net", 
+            "date_joined": "2010-09-16 16:23:49"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "main.news", 
+        "fields": {
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor nulla et felis tincidunt dapibus. Fusce et leo erat, sit amet porta urna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae dolor est. Donec porttitor egestas elit, vitae egestas ipsum dignissim vitae. Cras quis justo sem, a ultrices enim. Ut ac ante nec eros scelerisque ultricies non sit amet mauris. Etiam facilisis vestibulum lobortis. Phasellus id erat est. Curabitur at quam nec nisl mattis cursus quis quis lectus. Sed cursus vehicula tellus eu consequat. Donec suscipit iaculis felis, ac vestibulum magna malesuada ac. Nullam quis est et eros ultrices fringilla et a nibh. Proin justo odio, tristique a viverra eu, faucibus mattis justo. Vestibulum pharetra posuere scelerisque. Donec at orci elit, rutrum porttitor risus. Nam semper magna sed dolor adipiscing scelerisque. Donec nec turpis viverra massa pellentesque cursus. Phasellus ut odio sed ante tincidunt fermentum.\r\n\r\nEtiam pulvinar sollicitudin rutrum. Proin sit amet vehicula nisi. Mauris in felis nisl, in tincidunt purus. Praesent rhoncus massa pulvinar arcu cursus quis adipiscing mauris tincidunt. Proin auctor, diam eget blandit sollicitudin, libero nisi varius urna, a aliquet sapien quam sed purus. Sed nibh sem, laoreet ut iaculis sagittis, gravida non mi. Suspendisse potenti. Vivamus elit neque, rutrum non suscipit id, lobortis et felis. Nulla feugiat dui in dui cursus sed volutpat risus egestas. Nam at ligula commodo nibh ultricies feugiat. Cras facilisis, nibh sed accumsan tincidunt, orci odio vehicula nunc, eu porttitor lorem nulla eu ante. Aliquam aliquet suscipit rutrum.\r\n\r\nAenean suscipit interdum mauris. Phasellus a erat vitae mauris eleifend vehicula nec ut mauris. Aliquam eu sem felis, a convallis eros. Quisque malesuada tincidunt adipiscing. Duis a tempor magna. Nulla mattis, tortor in facilisis tempus, tortor nulla adipiscing purus, et ultrices nisi lacus sed justo. Curabitur blandit magna tortor, sit amet sagittis ante. In nisi mauris, bibendum ac luctus non, auctor ut arcu. Suspendisse eu leo at purus congue tincidunt. Duis tincidunt scelerisque mollis. Quisque fringilla egestas euismod. Phasellus quis porta felis. Suspendisse in facilisis erat. Aenean semper, enim ultricies imperdiet sodales, purus lectus mattis ligula, eu consectetur sapien dui vel quam. ", 
+            "image": "", 
+            "name": "Test #1"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "main.news", 
+        "fields": {
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor nulla et felis tincidunt dapibus. Fusce et leo erat, sit amet porta urna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae dolor est. Donec porttitor egestas elit, vitae egestas ipsum dignissim vitae. Cras quis justo sem, a ultrices enim. Ut ac ante nec eros scelerisque ultricies non sit amet mauris. Etiam facilisis vestibulum lobortis. Phasellus id erat est. Curabitur at quam nec nisl mattis cursus quis quis lectus. Sed cursus vehicula tellus eu consequat. Donec suscipit iaculis felis, ac vestibulum magna malesuada ac. Nullam quis est et eros ultrices fringilla et a nibh. Proin justo odio, tristique a viverra eu, faucibus mattis justo. Vestibulum pharetra posuere scelerisque. Donec at orci elit, rutrum porttitor risus. Nam semper magna sed dolor adipiscing scelerisque. Donec nec turpis viverra massa pellentesque cursus. Phasellus ut odio sed ante tincidunt fermentum.\r\n\r\nEtiam pulvinar sollicitudin rutrum. Proin sit amet vehicula nisi. Mauris in felis nisl, in tincidunt purus. Praesent rhoncus massa pulvinar arcu cursus quis adipiscing mauris tincidunt. Proin auctor, diam eget blandit sollicitudin, libero nisi varius urna, a aliquet sapien quam sed purus. Sed nibh sem, laoreet ut iaculis sagittis, gravida non mi. Suspendisse potenti. Vivamus elit neque, rutrum non suscipit id, lobortis et felis. Nulla feugiat dui in dui cursus sed volutpat risus egestas. Nam at ligula commodo nibh ultricies feugiat. Cras facilisis, nibh sed accumsan tincidunt, orci odio vehicula nunc, eu porttitor lorem nulla eu ante. Aliquam aliquet suscipit rutrum.\r\n\r\nAenean suscipit interdum mauris. Phasellus a erat vitae mauris eleifend vehicula nec ut mauris. Aliquam eu sem felis, a convallis eros. Quisque malesuada tincidunt adipiscing. Duis a tempor magna. Nulla mattis, tortor in facilisis tempus, tortor nulla adipiscing purus, et ultrices nisi lacus sed justo. Curabitur blandit magna tortor, sit amet sagittis ante. In nisi mauris, bibendum ac luctus non, auctor ut arcu. Suspendisse eu leo at purus congue tincidunt. Duis tincidunt scelerisque mollis. Quisque fringilla egestas euismod. Phasellus quis porta felis. Suspendisse in facilisis erat. Aenean semper, enim ultricies imperdiet sodales, purus lectus mattis ligula, eu consectetur sapien dui vel quam. ", 
+            "image": "", 
+            "name": "Test #2"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "main.news", 
+        "fields": {
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor nulla et felis tincidunt dapibus. Fusce et leo erat, sit amet porta urna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae dolor est. Donec porttitor egestas elit, vitae egestas ipsum dignissim vitae. Cras quis justo sem, a ultrices enim. Ut ac ante nec eros scelerisque ultricies non sit amet mauris. Etiam facilisis vestibulum lobortis. Phasellus id erat est. Curabitur at quam nec nisl mattis cursus quis quis lectus. Sed cursus vehicula tellus eu consequat. Donec suscipit iaculis felis, ac vestibulum magna malesuada ac. Nullam quis est et eros ultrices fringilla et a nibh. Proin justo odio, tristique a viverra eu, faucibus mattis justo. Vestibulum pharetra posuere scelerisque. Donec at orci elit, rutrum porttitor risus. Nam semper magna sed dolor adipiscing scelerisque. Donec nec turpis viverra massa pellentesque cursus. Phasellus ut odio sed ante tincidunt fermentum.\r\n\r\nEtiam pulvinar sollicitudin rutrum. Proin sit amet vehicula nisi. Mauris in felis nisl, in tincidunt purus. Praesent rhoncus massa pulvinar arcu cursus quis adipiscing mauris tincidunt. Proin auctor, diam eget blandit sollicitudin, libero nisi varius urna, a aliquet sapien quam sed purus. Sed nibh sem, laoreet ut iaculis sagittis, gravida non mi. Suspendisse potenti. Vivamus elit neque, rutrum non suscipit id, lobortis et felis. Nulla feugiat dui in dui cursus sed volutpat risus egestas. Nam at ligula commodo nibh ultricies feugiat. Cras facilisis, nibh sed accumsan tincidunt, orci odio vehicula nunc, eu porttitor lorem nulla eu ante. Aliquam aliquet suscipit rutrum.\r\n\r\nAenean suscipit interdum mauris. Phasellus a erat vitae mauris eleifend vehicula nec ut mauris. Aliquam eu sem felis, a convallis eros. Quisque malesuada tincidunt adipiscing. Duis a tempor magna. Nulla mattis, tortor in facilisis tempus, tortor nulla adipiscing purus, et ultrices nisi lacus sed justo. Curabitur blandit magna tortor, sit amet sagittis ante. In nisi mauris, bibendum ac luctus non, auctor ut arcu. Suspendisse eu leo at purus congue tincidunt. Duis tincidunt scelerisque mollis. Quisque fringilla egestas euismod. Phasellus quis porta felis. Suspendisse in facilisis erat. Aenean semper, enim ultricies imperdiet sodales, purus lectus mattis ligula, eu consectetur sapien dui vel quam. ", 
+            "image": "", 
+            "name": "Test #3"
+        }
+    }, 
+    {
         "pk": 4, 
         "model": "main.news", 
         "fields": {
