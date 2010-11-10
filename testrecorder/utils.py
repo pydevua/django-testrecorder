@@ -186,8 +186,8 @@ class ActionStorage(object):
     def delete_request(self, func_index, index):
         self.data[func_index].delete(index)
     
-    def add_request(self, request, response):
-        self.data[-1].add(RequestRecord(request, response))        
+    def add_request(self, request, response, ignore_csrf_token=True):
+        self.data[-1].add(RequestRecord(request, response, ignore_csrf_token))        
     
     def remove_assertion(self, func_index, index):
         self.data[func_index].records[index].remove_assertion()
@@ -243,11 +243,14 @@ class RequestRecord(object):
     
     file_store = FileSystemStorage()
     
-    def __init__(self, request, response):
+    def __init__(self, request, response, ignore_csrf_token=True):
         self.url = request.path_info
         self.method = request.method
         self.get = [(k, request.GET.getlist(k)) for k in request.GET]
-        self.post = [(k, request.POST.getlist(k)) for k in request.POST]
+        
+        icf, tn = ignore_csrf_token, 'csrfmiddlewaretoken'
+        self.post = [(k, request.POST.getlist(k)) for k in request.POST if not icf or k != tn]
+        
         self.files = []
         for field_name, file in request.FILES.items():
             file_path = self.file_store.save(FILES_PATH+file.name, file)
