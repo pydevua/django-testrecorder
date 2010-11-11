@@ -11,7 +11,7 @@ class ClassNamePanel(Panel):
     class_name = DEFAULT_CLASS_NAME
     
     def nav_title(self):
-        return mark_safe('Class name: <span>%s</span>' % self.class_name)
+        return mark_safe('Class name: <span class="small">%s</span>' % self.class_name)
 
     def title(self):
         return 'Class name'

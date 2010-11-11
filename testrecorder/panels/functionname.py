@@ -12,7 +12,7 @@ class FunctionNamePanel(Panel):
     
     def nav_title(self):
         mark_safe
-        return mark_safe('Current function: <span>%s</span>' % self.function_name)
+        return mark_safe('Function: <span class="small">%s</span>' % self.function_name)
 
     def title(self):
         return 'Add function'

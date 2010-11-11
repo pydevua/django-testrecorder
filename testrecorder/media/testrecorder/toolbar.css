@@ -467,6 +467,10 @@ span.VarName {
 	color: #00ff40;
 }
 
+#djDebug #djDebugPanelList a span.small {
+    font-size: 0.9em;
+}
+
 #djDebug #djDebugPanelList a span.stop {
 	font-size: larger;
 	color: #ff0000;

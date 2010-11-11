@@ -1,1 +1,0 @@
-{% if item.is_data %}{% if item.is_data_short %}, {{ item.short_data|safe }}{% else %}, data{% endif %}{% endif %}

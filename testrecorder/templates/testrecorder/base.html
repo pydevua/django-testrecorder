@@ -50,12 +50,17 @@
 					{% endif %}
 				</li>
 			{% endfor %}
+            <li>
+                <a href="https://github.com/pydevua/django-testrecorder" target="_blank" style="font-size: 0.8em;">
+                    We are glad to hear your questions, comments or suggestions!
+                </a>
+            </li>
 		</ul>
 	</div>
 	<div style="display:none;" id="djDebugToolbarHandle">
 		<a title="Show Toolbar" id="djShowToolBarButton" href="#">&laquo;</a>
-		<a class="jsStopRecord"  title="Stop Record" id="djStopToolBarButton" href="{{ BASE_URL }}/stop/" {% if not start %}style="display: none"{% endif %}>&laquo;</a>
-		<a class="jsStartRecord"  title="Start Record" id="djStartToolBarButton" href="{{ BASE_URL }}/start/" {% if start %}style="display: none"{% endif %}>&laquo;</a>
+		<a class="jsStopRecord" title="Stop Record" id="djStopToolBarButton" href="{{ BASE_URL }}/stop/" {% if not start %}style="display: none"{% endif %}>&laquo;</a>
+		<a class="jsStartRecord" title="Start Record" id="djStartToolBarButton" href="{{ BASE_URL }}/start/" {% if start %}style="display: none"{% endif %}>&laquo;</a>
 		<a title="Get Code" id="djGetCodeToolBarButton" href="#">&laquo;</a>
 	</div>
 	{% for panel in panels %}

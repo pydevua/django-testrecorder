@@ -9,7 +9,7 @@ jQuery(function($j) {
             var current = null;
             $j('#djDebugPanelList li a').click(function() {
                 if (!this.className) {
-                    return false;
+                    return true;
                 }
                 current = $j('#djDebug #' + this.className);
                 if (current.is(':visible')) {
