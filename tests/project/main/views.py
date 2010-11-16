@@ -1,6 +1,6 @@
 from decorators import render_to
 from main.models import News
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from main.forms import NewsForm
 
 @render_to('main/index.html')
@@ -20,7 +20,7 @@ def news_details(request, id):
 def create(request):
     form = NewsForm(request.POST or None)
     if form.is_valid():
-        pass
+        return redirect('main:index')
     return {
         'form': form
     }

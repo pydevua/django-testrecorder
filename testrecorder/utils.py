@@ -144,11 +144,16 @@ class TestGenerator(object):
         else:
             data = ''
         node.add('response = self.client.%s(%s%s)' % (request.method.lower(), url, data))
-        node.add('self.failUnlessEqual(response.status_code, %s)' % request.code)
+        
         if request.redirect_url:
-            node.add('self.failUnlessEqual(response["Location"], "http://testserver%s")' % request.redirect_url)
+            status = '' if request.code == 302 else ', status_code=%s' % request.code
+            node.add('self.assertRedirects(response, %s%s)' % (request.redirect_url_reverse, status))
+        else:
+            node.add('self.failUnlessEqual(response.status_code, %s)' % request.code)
+            
         for assertion in request.assertions:
             node.add(assertion)
+            
         for context_name, form in request.forms.items():
             if form.is_valid():
                 node.add('self.failUnless(response.context["%s"].is_valid())' % context_name)
@@ -309,9 +314,18 @@ class RequestRecord(object):
     
     @property
     def url_reverse(self):
+        return self._reverse_url(self.url)
+    
+    @property
+    def redirect_url_reverse(self):
+        if self.redirect_url:
+            return self._reverse_url(self.redirect_url)
+        return self.redirect_url
+    
+    def _reverse_url(self, url):
         resolver = get_resolver(None)
         try:
-            name, args, kwargs = resolver.resolve_to_name(self.url)
+            name, args, kwargs = resolver.resolve_to_name(url)
             output = ['"%s"' % name]
             if kwargs:
                 output.append(', kwargs=%s' % self.to_short_dict(kwargs))
@@ -319,7 +333,7 @@ class RequestRecord(object):
                 output.append(', args=%s' % str(list(args)))
             return 'reverse(%s)' % ''.join(output)
         except Http404:
-            return '"%s"' % self.url
+            return '"%s"' % url        
     
     def is_url_short(self):
         resolver = get_resolver(None)

@@ -12,26 +12,19 @@ class TestClass(TestCase):
     def test_func(self):
         self.client.login(**self.auth)
         
-        response = self.client.get(reverse("main:create"))
+        response = self.client.get(reverse("main:index"))
         self.failUnlessEqual(response.status_code, 200)
         
         response = self.client.get(reverse("main:create"))
         self.failUnlessEqual(response.status_code, 200)
         
         data = {
-            "content": u"",
-            "name": u"",
+            "content": u"asdasd",
+            "name": u"asdasd",
             "image": u""
         }
         response = self.client.post(reverse("main:create"), data)
-        self.failUnlessEqual(response.status_code, 200)
-        self.failIf(response.context["form"].is_valid())
+        self.assertRedirects(response, reverse("main:index"))
         
-        data = {
-            "content": u"dfgdfg",
-            "name": u"dfgdfg",
-            "image": u""
-        }
-        response = self.client.post(reverse("main:create"), data)
+        response = self.client.get(reverse("main:index"))
         self.failUnlessEqual(response.status_code, 200)
-        self.failUnless(response.context["form"].is_valid())
