@@ -4,6 +4,7 @@ from django.utils.http import urlencode
 from testrecorder.settings import FILES_PATH
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
+from django.forms import BaseForm
 
 class CodeNode(object):
     
@@ -148,6 +149,13 @@ class TestGenerator(object):
             node.add('self.failUnlessEqual(response["Location"], "http://testserver%s")' % request.redirect_url)
         for assertion in request.assertions:
             node.add(assertion)
+        for context_name, form in request.forms.items():
+            if form.is_valid():
+                node.add('self.failUnless(response.context["%s"].is_valid())' % context_name)
+            else:
+                #for fname, errors in form.errors.items():
+                #    node.add('self.assertFormError(response, "%s", "%s", %s)' % (context_name, fname, list(errors)))
+                node.add('self.failIf(response.context["%s"].is_valid())' % context_name)
         return node.blank()
     
     def add_func(self, func, node):
@@ -247,7 +255,17 @@ class RequestRecord(object):
         self.url = request.path_info
         self.method = request.method
         self.get = [(k, request.GET.getlist(k)) for k in request.GET]
+        self.forms = {}
         
+        if hasattr(request, '_djtr_context'):
+            context = {}
+            for d in request._djtr_context.dicts:
+                context.update(d)
+                
+            for context_name, item in context.items():
+                if isinstance(item, BaseForm) and item.is_bound:
+                    self.forms[context_name] = item
+                    
         icf, tn = ignore_csrf_token, 'csrfmiddlewaretoken'
         self.post = [(k, request.POST.getlist(k)) for k in request.POST if not icf or k != tn]
         

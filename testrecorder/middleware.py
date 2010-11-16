@@ -6,7 +6,8 @@ import os
 import testrecorder.urls
 from django.utils.encoding import smart_unicode
 from django.contrib.auth import login, authenticate
-from testrecorder.settings import AUTH, AUTOLOGIN
+from testrecorder.settings import AUTH, AUTOLOGIN, TEST_FORM_VALIDATION
+from django.template import Template
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 _STATUS_CODES = (200, 302)
@@ -26,7 +27,16 @@ class TestRecorderMiddleware(object):
             settings.ROOT_URLCONF = 'testrecorder.urls'
         
     def process_view(self, request, view_func, view_args, view_kwargs):
-        pass
+        if TEST_FORM_VALIDATION:
+            #a little bit of magic
+            original_render = Template.render
+            
+            def new_render(obj, context):
+                if not hasattr(request, '_djtr_context'):
+                    request._djtr_context = context
+                return original_render(obj, context)
+            
+            Template.render = new_render
         
     def process_response(self, request, response):
         if self._validate_request(request, response):        

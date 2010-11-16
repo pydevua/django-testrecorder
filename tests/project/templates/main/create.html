@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form}}
+            <tr>
+                <td></td>
+                <td><button>Save</button></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
