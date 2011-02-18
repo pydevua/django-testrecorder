@@ -48,7 +48,7 @@ class TestRecorderMiddleware(object):
     def _validate_request(self, request, response):
         if response.status_code == 304:
             return False
-        if request.path.startswith(os.path.join('/', testrecorder.urls._PREFIX)):
+        if testrecorder.urls._PREFIX in request.path:
             return False
         if len(settings.MEDIA_URL) and request.path.startswith(settings.MEDIA_URL):
             return False
