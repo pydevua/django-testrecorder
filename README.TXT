@@ -32,7 +32,12 @@ For all available settings see testrecorder.settings.py
 
 #More#
 
-Tested with Django 1.1+. 
+Tested with Django 1.1 - 1.2.5. 
 The project code and bugtracker is hosted on http://github.com/pydevua/django-testrecorder.
 Thanks for downloading. We are glad to hear your questions, comments or suggestions!
 Thanks django-debug-toolbar for styles :)
+
+Projects are very different so it is not so easy provide all situation. So if you 
+get error create please issue. It will be good if you send js error or traceback 
+from console. If your project are open, left please link to the repository.
+Just settings.MIDDLEWARE_CLASSES can be good too. 
