@@ -4,6 +4,29 @@ jQuery(function($j) {
     $j.djDebug = function(data, klass) {
         ( ! djRecToolbar.INIT ) && $j.djDebug.init();
     }
+    $j.ajaxSetup({ // csrf for django 1.2.5
+        beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
     $j.extend($j.djDebug, {
         init: function() {
             var current = null;
@@ -24,7 +47,7 @@ jQuery(function($j) {
                     $j(this).parent().addClass('active');
                 }
                 return false;
-            });	
+            });
             $j('#djDebug a.djDebugClose').click(function() {
                 $j(document).trigger('close.djDebug');
                 $j('#djDebugToolbar li').removeClass('active');
@@ -69,39 +92,39 @@ jQuery(function($j) {
                 $j('#djDebugPanelList li a.djDebugCodePanel').click();
                 return false;
             });
-            
+
             $j('.djAddAssertion').live('click', function(){
                 $j('#assertion-input').data('url', $j(this).attr('href'));
                 $j('.djDebugAssertionPanel').click();
                 return false;
             });
-            
+
             $j('a.djDeleteRequest').live('click', function(){
                 $j.get(this.href, {}, function(data){
                     $j.djDebug.update_requests();
                 }, 'text');
-                return false;                   
+                return false;
             });
-            
+
             $j('a.djDeleteAssertions').live('click', function(){
                 $j.get(this.href, {}, function(){
                     $j.djDebug.update_requests();
                 })
                 return false;
             });
-            
+
             $j('a.jsStartRecord').click(function(e) {
                 $j.get(this.href);
                 $j('a.jsStartRecord').hide();
                 $j('a.jsStopRecord').show();
                 return false;
-            });	
+            });
             $j('a.jsStopRecord').click(function(e) {
                 $j.get(this.href);
                 $j('a.jsStopRecord').hide();
                 $j('a.jsStartRecord').show();
                 return false;
-            });						
+            });
             if ($j.cookie(COOKIE_NAME)) {
                 $j.djDebug.hide_toolbar(false);
             } else {
@@ -166,12 +189,12 @@ jQuery(function($j) {
         update_requests: function(){
             $j('#djDebugRecordRequestsPanel .djDebugPanelContent .scroll')
                 .load(djRecToolbar.BASE_URL+'/load_requests/', function(){
-                    $j('.djEdit').editable(djRecToolbar.BASE_URL+'/change_func_name/', { 
+                    $j('.djEdit').editable(djRecToolbar.BASE_URL+'/change_func_name/', {
                           indicator : "save...",
                           tooltip   : "Doubleclick to edit...",
                           event     : "dblclick",
                           style  : "inherit"
-                    });                    
+                    });
                 });
         }
     });
