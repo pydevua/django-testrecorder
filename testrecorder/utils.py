@@ -189,6 +189,9 @@ class ActionStorage(object):
     
     def __init__(self):
         self.data = []
+    
+    def __getitem__(self, key):
+        return self.data[key]
         
     def rename_func(self, index, name):
         self.data[index].name = name
@@ -232,6 +235,9 @@ class TestFunctionRecord(object):
     def __init__(self, name, *args, **kwargs):
         self.name = name
         self.records = []
+
+    def __getitem__(self, key):
+        return self.records[key]
     
     def add(self, item):
         self.records.append(item)
@@ -242,6 +248,9 @@ class TestFunctionRecord(object):
             return True
         except IndexError:
             return False
+
+    def __iter__(self):
+        return iter(self.records)
         
 class FileProxy(object):
 
@@ -284,6 +293,11 @@ class RequestRecord(object):
             self.redirect_url = '/'+self.redirect_url
         self.assertions = []
     
+    def __unicode__(self):
+        return '%s[%s]' % (self.url, self.method)
+    
+    __str__ = __unicode__
+    
     def remove_assertion(self):
         self.assertions = []
     
@@ -318,14 +332,26 @@ class RequestRecord(object):
     
     @property
     def redirect_url_reverse(self):
+        import urlparse
+        
         if self.redirect_url:
-            return self._reverse_url(self.redirect_url)
+            o = urlparse.urlparse(self.redirect_url)
+            output = []
+            output.append(self._reverse_url(o.path))
+            output.append('+u"?')
+            output.append(o.query)
+            output.append('"')
+            return u''.join(output)
         return self.redirect_url
     
-    def _reverse_url(self, url):
+    def _reverse_url(self, url, as_tuple=False):
         resolver = get_resolver(None)
         try:
             name, args, kwargs = resolver.resolve_to_name(url)
+            
+            if as_tuple:
+                return (name, args, kwargs)
+            
             output = ['"%s"' % name]
             if kwargs:
                 output.append(', kwargs=%s' % self.to_short_dict(kwargs))
@@ -403,7 +429,9 @@ def _pattern_resolve_to_name(self, path):
 
 def _resolver_resolve_to_name(self, path):
     tried = []
+
     match = self.regex.search(path)
+
     if match:
         new_path = path[match.end():]
         for pattern in self.url_patterns:
