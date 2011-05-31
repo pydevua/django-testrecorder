@@ -30,6 +30,11 @@ RECORDER_IGNORE = (
 
 For all available settings see testrecorder.settings.py
 
+NOTES:
+
+1. If you have some middleware that changes request.path_info, maybe you should
+add 'testrecorder.middleware.TestRecorderMiddleware' manually after you middleware.
+
 #More#
 
 Tested with Django 1.1 - 1.2.5. 
