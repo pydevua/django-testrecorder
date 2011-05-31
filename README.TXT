@@ -4,6 +4,8 @@ django-test-recorder
 
 Tool for generating tests for Django projects.
 
+Статья о django-test-recorder: http://djbook.ru/examples/27/
+
 #Using:#
 
 Run ./manage.py recorderserver <fixture fixture ...> and visit http://127.0.0.1:8000.
@@ -34,6 +36,8 @@ NOTES:
 
 1. If you have some middleware that changes request.path_info, maybe you should
 add 'testrecorder.middleware.TestRecorderMiddleware' manually after you middleware.
+
+2. **Use Firefox please**, because we have some problems with Chrome :( 
 
 #More#
 
