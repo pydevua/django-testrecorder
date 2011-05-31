@@ -64,6 +64,8 @@ ADMIN_MEDIA_PREFIX = '/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '$g^_w#9*(an#-gn@l-em@)upegpzqg-u9!!ukhn%c8tuz5=#)u'
 
+LOGIN_URL = '/login/'
+
 # List of callables that know how to import templates from various sources.
 if DEBUG:
     TEMPLATE_LOADERS = (
@@ -126,6 +128,9 @@ RECORDER_FIXTURES = [
     'test3.json',
     'test4.json'
 ]
+
+RECORDER_INIT_ON_START = False
+RECORDER_AUTO_START = True
 
 try:
     from settings_local import *

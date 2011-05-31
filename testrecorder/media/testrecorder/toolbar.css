@@ -24,7 +24,7 @@
 
 #djDebug #djInitWindow {
 	background:#111;
-	width:250px;
+	width:300px;
 	z-index:100000000;
 	position:fixed;
 	top:150px;

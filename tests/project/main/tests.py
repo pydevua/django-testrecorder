@@ -2,29 +2,16 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-class TestClass(TestCase):
-    def setUp(self):
-        self.auth = {
-            "username": u"admin",
-            "password": u"admin"
-        }
+class SomeTestCase(TestCase):
+    fixtures = ["test1.json", "test2.json", "test3.json", "test4.json"]
     
     def test_func(self):
-        self.client.login(**self.auth)
-        
         response = self.client.get(reverse("main:index"))
         self.failUnlessEqual(response.status_code, 200)
         
         response = self.client.get(reverse("main:create"))
+        self.assertRedirects(response, reverse("login")+u"?next=/create/")
+        
+        response = self.client.get(reverse("login"), {'next': '/create/'})
         self.failUnlessEqual(response.status_code, 200)
         
-        data = {
-            "content": u"asdasd",
-            "name": u"asdasd",
-            "image": u""
-        }
-        response = self.client.post(reverse("main:create"), data)
-        self.assertRedirects(response, reverse("main:index"))
-        
-        response = self.client.get(reverse("main:index"))
-        self.failUnlessEqual(response.status_code, 200)

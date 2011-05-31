@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url('^logout/$', logout, {}, 'logout'),
     url('^login/$', login, {}, 'login'),
     (r'^', include('main.urls', 'main')),
+    url(r'^(.*)/$', 'main.views.flatpage', name='rest_pages'),        
 )
 
 if settings.DEBUG:
