@@ -31,6 +31,17 @@ DEFAULT_CLASS_NAME = getattr(settings, 'RECORDER_DEFAULT_CLASS_NAME', 'SomeTestC
 #Default name for TestCase method name. Should start with "test", if you don't know.
 DEFAULT_FUNC_NAME = getattr(settings, 'RECORDER_DEFAULT_FUNC_NAME', 'test_func')
 
+#If this is True, csrf_token is not included to POST data
+IGNORE_CSRF_TOKEN = getattr(settings, 'RECORDER_IGNORE_CSRF_TOKEN', True)
+
+#EXPERIMENTAL
+
+#test-recorder can find all bounded forms in context and check their validation
+#This does not call any lazy objects in context or form validation before request finished.
+TEST_FORM_VALIDATION = getattr(settings, 'RECORDER_TEST_FORM_VALIDATION', False)
+
+USE_FIXTURE_PANEL = getattr(settings, 'RECORDER_USE_FIXTURE_PANEL', False)
+
 #Filter for model in Fixtures panel
 EXCLUDE_MODELS = getattr(settings, 'RECORDER_EXCLUDE_MODELS', (
     'auth.Permission',
@@ -46,12 +57,3 @@ SERIALIZER_INDENT = getattr(settings, 'RECORDER_SERIALIZER_INDENT', 4)
 
 #About natural keys: http://docs.djangoproject.com/en/dev/topics/serialization/#natural-keys
 SERIALIZER_USE_NATURAL_KEYS = getattr(settings, 'RECORDER_SERIALIZER_USE_NATURAL_KEYS', False)
-
-USE_FIXTURE_PANEL = getattr(settings, 'RECORDER_USE_FIXTURE_PANEL', False)
-
-#If this is True, csrf_token is not included to POST data
-IGNORE_CSRF_TOKEN = getattr(settings, 'RECORDER_IGNORE_CSRF_TOKEN', True)
-
-#test-recorder can find all bounded forms in context and check their validation
-#This does not call any lazy objects in context or form validation before request finished.
-TEST_FORM_VALIDATION = getattr(settings, 'RECORDER_TEST_FORM_VALIDATION', False)
