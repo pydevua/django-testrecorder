@@ -282,7 +282,7 @@
 #djDebug .panelContent tbody td,
 #djDebug .panelContent tbody th {
 	vertical-align:top;
-	padding:2px 3px;
+	padding:5px 10px;
 }
 #djDebug .panelContent thead th {
 	padding:1px 6px 1px 3px;
@@ -496,6 +496,12 @@ span.VarName {
 #djDebugRecordRequestsPanel div.scroll a {
 	color: #008080;
 	font-weight: bolder;
+}
+
+
+#djDebugRecordRequestsPanel div.assertions {
+  padding:4px;
+  border: 1px solid #EEEEEE;
 }
 
 /* Fixutures panel */
