@@ -20,7 +20,7 @@ def init(request):
     if func_name:
         toolbar.add_function(func_name)
     toolbar.init = False
-    toolbar.start_record = True            
+    toolbar.start_record = True
     return HttpResponse('{}')
 
 def start(request):
@@ -49,7 +49,7 @@ def add_function(request):
     if name:
         toolbar.add_function(name)
     call_command('flush', interactive=False)
-    call_command('loaddata', *toolbar.fixtures)    
+    call_command('loaddata', *toolbar.fixtures)
     return HttpResponse('{}')
 
 def delete(request):
@@ -73,12 +73,12 @@ def assertion(request):
     if not index is None:
         index = int(index)
     if not func_index is None:
-        func_index = int(func_index)        
-    value and toolbar.add_assertion(value, func_index, index)    
-    return HttpResponse('{}')    
+        func_index = int(func_index)
+    value and toolbar.add_assertion(value, func_index, index)
+    return HttpResponse('{}')
 
-def remove_assertions(request, index, func_index):
-    toolbar.remove_assertion(int(func_index), int(index))
+def remove_assertions(request, assert_index, request_index, func_index):
+    toolbar.remove_assertion(int(func_index), int(request_index), int(assert_index))
     return HttpResponse('{}')
 
 def load_requests(request):
@@ -90,13 +90,13 @@ def fixtures(request):
     use_natural_keys = settings.SERIALIZER_USE_NATURAL_KEYS
     include_existed = request.POST.get('include-existed', False)
     f_panel = toolbar.fixture_panel
-    
+
     objects = []
     for name in request.POST:
         if '.' in name:
             ids = request.POST.getlist(name)
             objects.extend(f_panel.get_objects(name, ids, include_existed))
-        
+
     data = serializers.serialize(format, objects, indent=indent,
                           use_natural_keys=use_natural_keys)
-    return HttpResponse(data)    
+    return HttpResponse(data)

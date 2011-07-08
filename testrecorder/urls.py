@@ -15,11 +15,11 @@ rec_urlpatterns = patterns('testrecorder.views',
     url(r'^%s/func_delete/$' % _PREFIX, 'func_delete', name='func_delete'),
     url(r'^%s/change_func_name/$' % _PREFIX, 'change_func_name'),
     url(r'^%s/assertion/$' % _PREFIX, 'assertion', name='add_assertion'),
-    url(r'^%s/assertion/remove/(\d+)/(\d+)/$' % _PREFIX, 'remove_assertions', name='remove_assertions'),
-    url(r'^%s/load_requests/$' % _PREFIX, 'load_requests'), 
-    url(r'^%s/fixtures/$' % _PREFIX, 'fixtures', name='fixtures'),   
+    url(r'^%s/assertion/remove/(\d+)/(\d+)/(\d+)/$' % _PREFIX, 'remove_assertions', name='remove_assertions'),
+    url(r'^%s/load_requests/$' % _PREFIX, 'load_requests'),
+    url(r'^%s/fixtures/$' % _PREFIX, 'fixtures', name='fixtures'),
 )
 
 urlpatterns = patterns('',
-    ('', include(rec_urlpatterns, 'test-recorder')),                       
+    ('', include(rec_urlpatterns, 'test-recorder')),
 )
