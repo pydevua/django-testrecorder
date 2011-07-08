@@ -1,46 +1,56 @@
 <table>
-	<thead>
-		<tr>
-			<th>Path</th>
-			<th>Method</th>
-			<th>GET</th>
-			<th>POST</th>
-			<th>Code</th>
-			<th>Redirect url</th>
-			<th>&nbsp</th>
-			<th>&nbsp</th>
-            <th>&nbsp</th>
-		</tr>
-	</thead>
-	{% for row in records %}
-		<tr class="djFunctionRow">
-			<td colspan="6"><b class="djEdit" id="row_{{ forloop.counter0 }}">{{ row.name }}</b></td>
-			<td><a class="djDeleteRequest" href="{% url test-recorder:func_delete %}?index={{ forloop.counter0 }}">delete</a></td>
-		</tr>
-		{% for item in row.records %}
-			<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">
-				<td>{{ item.url }}</td>
-				<td>{{ item.method }}</td>
-				<td>
-					{% with item.get as vars %}
-						{% include 'testrecorder/panels/_request_vars.html' %}
-					{% endwith %}
-				</td>
-				<td>				
-					{% with item.post as vars %}
-						{% include 'testrecorder/panels/_request_vars.html' %}
-					{% endwith %}
-				</td>
-				<td>{{ item.code }}</td>
-				<td>{{ item.redirect_url }}</td>
-				<td><a class="djDeleteRequest" href="{% url test-recorder:delete %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">delete</a></td>
-				<td><a class="djAddAssertion" href="{% url test-recorder:add_assertion %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">add assertion</a></td>
-                <td>
-                    {% if item.assertions %}
-                        <a href="{% url test-recorder:remove_assertions forloop.counter0 forloop.parentloop.counter0 %}" class="djDeleteAssertions" alt="remove assertions" title="remove assertions">remove a-s</a>
-                    {% endif %}
-                </td>
-			</tr>
-		{% endfor %}
-	{% endfor %}	
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Method</th>
+      <th>GET</th>
+      <th>POST</th>
+      <th>Code</th>
+      <th>Redirect url</th>
+      <th>Assertions</th>
+      <th>&nbsp</th>
+    </tr>
+  </thead>
+  {% for row in records %}
+  <tr class="djFunctionRow">
+    <td colspan="7"><b class="djEdit" id="row_{{ forloop.counter0 }}">{{ row.name }}</b></td>
+    <td><a class="djDeleteRequest" href="{% url test-recorder:func_delete %}?index={{ forloop.counter0 }}">delete function</a></td>
+  </tr>
+  {% for item in row.records %}
+  <tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}">
+    <td>{{ item.url }}
+    </td>
+    <td>{{ item.method }}</td>
+    <td>
+      {% with item.get as vars %}
+      {% include 'testrecorder/panels/_request_vars.html' %}
+      {% endwith %}
+    </td>
+    <td>				
+      {% with item.post as vars %}
+      {% include 'testrecorder/panels/_request_vars.html' %}
+      {% endwith %}
+    </td>
+    <td>{{ item.code }}
+
+    </td>
+
+    <td>{{ item.redirect_url }}</td>
+    <td> 
+
+      {% if item.assertions %} 
+      <div class="assertions">
+      {% for assertion in item.assertions %}
+      <a href="{% url test-recorder:remove_assertions forloop.counter0 forloop.parentloop.counter0 forloop.parentloop.parentloop.counter0 %}" class="djDeleteAssertions" alt="remove assertions" title="remove assertions">remove</a>
+
+      {{ assertion }} <br />
+      {% endfor %}
+    </div>
+      {% endif %}
+      <a class="djAddAssertion" href="{% url test-recorder:add_assertion %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">add assertion</a>  
+    </td>
+    <td><a class="djDeleteRequest" href="{% url test-recorder:delete %}?func_index={{ forloop.parentloop.counter0 }}&index={{ forloop.counter0 }}">delete request</a></td>
+  </tr>
+  {% endfor %}
+  {% endfor %}	
 </table>
