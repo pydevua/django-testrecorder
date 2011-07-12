@@ -1,3 +1,5 @@
+Documentation: http://django-testrecorder.readthedocs.org/en/latest/ (in progress...)
+
 ====================
 django-test-recorder
 ====================
