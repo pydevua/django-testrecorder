@@ -50,5 +50,5 @@ Thanks django-debug-toolbar for styles :)
 
 Projects are very different so it is not so easy provide all situation. So if you 
 get error create please issue. It will be good if you send js error or traceback 
-from console. If your project are open, left please link to the repository.
+from console. If your project is open, left please link to the repository.
 Just settings.MIDDLEWARE_CLASSES can be good too. 
