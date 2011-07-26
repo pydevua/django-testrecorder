@@ -5,3 +5,4 @@ tests/project/settings_local.py
 dj1.1/*
 dj1.2/*
 dj1.3/*
+docs/_build/*
