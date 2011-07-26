@@ -39,6 +39,8 @@ IGNORE_CSRF_TOKEN = getattr(settings, 'RECORDER_IGNORE_CSRF_TOKEN', True)
 
 #EXPERIMENTAL
 
+TEST_EMAIL_SENDING = getattr(settings, 'RECORDER_TEST_EMAIL_SENDING', False)
+
 #test-recorder can find all bounded forms in context and check their validation
 #This does not call any lazy objects in context or form validation before request finished.
 TEST_FORM_VALIDATION = getattr(settings, 'RECORDER_TEST_FORM_VALIDATION', False)

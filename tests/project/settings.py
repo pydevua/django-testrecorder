@@ -136,6 +136,8 @@ RECORDER_IGNORE = (
     '^/favicon.ico',
 )
 
+RECORDER_TEST_EMAIL_SENDING = True
+
 try:
     from settings_local import *
 except ImportError:

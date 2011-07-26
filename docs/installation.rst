@@ -57,7 +57,11 @@ and used in tests. You can change path with ``RECORDER_FILES_PATH`` setting:
 
     RECORDER_FILES_PATH = 'files_to_test/'
     
-You can turn off testing form validation with ``RECORDER_TEST_FORM_VALIDATION``.
+You can turn on testing form validation with ``RECORDER_TEST_FORM_VALIDATION``.
 It is turned off by default, because is experimental feauture. 
 his does not call any lazy objects in context or form validation before request finished
 and just check in test if form have same validation state that was recorded. 
+
+You can turn on testing of emails sending with ``RECORDER_TEST_EMAIL_SENDING``.
+In this case ``django.core.mail.backends.locmem.EmailBackend`` will be set as
+``EMAIL_BACKEND`` and testrecorder will save number of sent emails.

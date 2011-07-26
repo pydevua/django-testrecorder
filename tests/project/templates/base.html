@@ -15,7 +15,8 @@
                 <a href="{% url login%}?next={{ request.path_info|urlencode }}">{% trans "Login" %}</a> |
            {% endif %}
            <a href="{% url main:index %}">{% trans "Main" %}</a> |
-           <a href="{% url main:create %}">{% trans "Create" %}</a>
+           <a href="{% url main:create %}">{% trans "Create" %}</a> |
+           <a href="{% url main:send_email %}">{% trans "Send email" %}</a>
        </div>
        {% block body %}{% endblock %} 
     </body>

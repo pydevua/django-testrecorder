@@ -1,10 +1,11 @@
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern, Resolver404, get_resolver
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode
-from testrecorder.settings import FILES_PATH
+from testrecorder.settings import FILES_PATH, TEST_EMAIL_SENDING
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
 from django.forms import BaseForm
+from django.core import mail
 
 class CodeNode(object):
 
@@ -126,6 +127,13 @@ class TestGenerator(object):
             setattr(self, '_import_for_files', True)
             node.insert('import', 'from django.conf import settings')
             node.insert('import', 'from os import path')
+            
+        if request.emails_number:
+            if not hasattr(self, '_import_for_emails_testing'):
+                self._import_for_emails_testing = True
+                node.insert('import', 'import django.core.mail')
+            node.add('django.core.mail.outbox = []')
+            
         if request.is_data() and not request.is_data_short():
             node.add('data = {').indent()
             for item in self.dict_values(request.data):
@@ -153,7 +161,10 @@ class TestGenerator(object):
 
         for assertion in request.assertions:
             node.add(assertion)
-
+        
+        if request.emails_number:
+            node.add('self.assertEqual(len(django.core.mail.outbox), %s)' % request.emails_number)
+        
         for context_name, form in request.forms.items():
             if form.is_valid():
                 node.add('self.failUnless(response.context["%s"].is_valid())' % context_name)
@@ -270,7 +281,7 @@ class RequestRecord(object):
         self.method = request.method
         self.get = [(k, request.GET.getlist(k)) for k in request.GET]
         self.forms = {}
-
+        
         if hasattr(request, '_djtr_context'):
             context = {}
             for d in request._djtr_context.dicts:
@@ -292,7 +303,12 @@ class RequestRecord(object):
         if self.redirect_url and not self.redirect_url.startswith('/'):
             self.redirect_url = '/'+self.redirect_url
         self.assertions = []
-
+        
+        if TEST_EMAIL_SENDING:
+            self.emails_number = mail.outbox.get_emails_number()
+        else:
+            self.emails_number = 0
+        
     def __unicode__(self):
         return '%s[%s]' % (self.url, self.method)
 
@@ -453,3 +469,14 @@ def _resolver_resolve_to_name(self, path):
 
 RegexURLPattern.resolve_to_name = _pattern_resolve_to_name
 RegexURLResolver.resolve_to_name = _resolver_resolve_to_name
+
+class MailOutbox(list):
+    
+    def get_emails_number(self):
+        number = len(self)
+        try:
+            while self.pop():
+                pass
+        except IndexError:
+            pass
+        return number
