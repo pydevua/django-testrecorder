@@ -20,6 +20,9 @@ and then you can get tests for this actions.
 Settings
 ========
 
+RECORDER_FIXTURES
+"""""""""""""""""
+
 You can add fixtures that will be loaded automatically. 
 
 ::
@@ -30,7 +33,10 @@ You can add fixtures that will be loaded automatically.
         'test3.json',
         'test4.json'
     ]
-    
+
+RECORDER_IGNORE
+"""""""""""""""
+
 You can set URLS that will not be recorded. 
 
 ::
@@ -39,7 +45,12 @@ You can set URLS that will not be recorded.
         '^/favicon.ico',
         '^/admin.*',      
     )
-    
+
+RECORDER_AUTOLOGIN
+""""""""""""""""""
+RECORDER_AUTH
+"""""""""""""
+
 Also you can set auto-login. For default auth-backend this looks like this:
 
 ::
@@ -49,18 +60,27 @@ Also you can set auto-login. For default auth-backend this looks like this:
         'username': 'admin',
         'password': 'admin'
     }
-    
+
+RECORDER_FILES_PATH
+"""""""""""""""""""
+
 If you upload some files during test recording they will be saved in ``MEDIA_ROOT/test/``
 and used in tests. You can change path with ``RECORDER_FILES_PATH`` setting:
 
 ::
 
     RECORDER_FILES_PATH = 'files_to_test/'
-    
+
+RECORDER_TEST_FORM_VALIDATION
+"""""""""""""""""""""""""""""
+
 You can turn on testing form validation with ``RECORDER_TEST_FORM_VALIDATION``.
 It is turned off by default, because is experimental feauture. 
 his does not call any lazy objects in context or form validation before request finished
 and just check in test if form have same validation state that was recorded. 
+
+RECORDER_TEST_EMAIL_SENDING
+"""""""""""""""""""""""""""
 
 You can turn on testing of emails sending with ``RECORDER_TEST_EMAIL_SENDING``.
 In this case ``django.core.mail.backends.locmem.EmailBackend`` will be set as
