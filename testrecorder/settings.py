@@ -1,3 +1,6 @@
+"""
+Default settings
+"""
 from django.conf import settings
 
 #fixtures loaded with recorder server and used for testing
