@@ -31,11 +31,12 @@ You can add fixtures that will be loaded automatically.
         'test4.json'
     ]
     
-You can set URLS that will not be recorded.
+You can set URLS that will not be recorded. 
 
 ::
 
     RECORDER_IGNORE = (
+        '^/favicon.ico',
         '^/admin.*',      
     )
     

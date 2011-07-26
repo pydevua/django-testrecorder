@@ -132,6 +132,10 @@ RECORDER_FIXTURES = [
 RECORDER_INIT_ON_START = False
 RECORDER_AUTO_START = True
 
+RECORDER_IGNORE = (
+    '^/favicon.ico',
+)
+
 try:
     from settings_local import *
 except ImportError:
